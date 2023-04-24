@@ -14,6 +14,11 @@ class Assets {
   static const String icon_apple = 'assets/images/icon_apple.svg';
   static const String circle_image_profile = 'assets/images/circle_image_profile.png';
   static const String plus_icon = 'assets/images/plus_icon.png';
+  static const String dropDown = 'assets/images/dropDown.svg';
+  static const String reorder_item = 'assets/images/reorder_item.png';
+  static const String edit_icon = 'assets/images/edit_icon.png';
+  static const String delete_icon = 'assets/images/delete_icon.png';
+  static const String image_close = 'assets/images/image_close.png';
 
 
   static const String login_top = 'assets/images/login_top.png';

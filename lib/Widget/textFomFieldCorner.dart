@@ -5,8 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:swipeme/constant/appstyle.dart';
 import 'package:swipeme/constant/colors.dart';
 
-class CTextFormField extends StatelessWidget {
-  CTextFormField(
+class TextFormFieldCorner extends StatelessWidget {
+  TextFormFieldCorner(
       {Key? key,
       this.inputFormatters,
       this.textInputAction,
@@ -20,8 +20,7 @@ class CTextFormField extends StatelessWidget {
       this.prefixIconSvg,
       this.hintTextStyle,
       this.hintText,
-      this.textInputType,
-      this.lines})
+      this.textInputType})
       : super(key: key);
 
   double? height, width;
@@ -31,7 +30,6 @@ class CTextFormField extends StatelessWidget {
   Widget? prefix;
   TextInputType? textInputType;
   bool? isEnable;
-  int? lines;
   TextInputAction? textInputAction;
   List<TextInputFormatter>? inputFormatters;
 
@@ -45,7 +43,8 @@ class CTextFormField extends StatelessWidget {
       width: width ?? w * 0.80,
       height: height ?? 45,
       decoration: BoxDecoration(
-        color: cTextFieldBackground,
+        border: Border.all(color: cTextFieldHint, width: 1),
+        color: cWhite,
         borderRadius: BorderRadius.circular(5),
       ),
       child: ValueListenableBuilder(
@@ -60,8 +59,6 @@ class CTextFormField extends StatelessWidget {
               // obscuringCharacter: '*',
               textInputAction: textInputAction ?? TextInputAction.next,
               inputFormatters: inputFormatters,
-              maxLines: lines,
-              minLines: 1,
               decoration: InputDecoration(
                 enabled: isEnable ?? true,
                 prefixIconConstraints: BoxConstraints(),
