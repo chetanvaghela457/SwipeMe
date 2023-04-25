@@ -19,6 +19,15 @@ class Assets {
   static const String edit_icon = 'assets/images/edit_icon.png';
   static const String delete_icon = 'assets/images/delete_icon.png';
   static const String image_close = 'assets/images/image_close.png';
+  static const String pdf_icon = 'assets/images/pdf_icon.png';
+  static const String verified_image = 'assets/images/verified_image.png';
+  static const String facebook_icon_profile = 'assets/images/facebook_icon_profile.svg';
+  static const String linkedin_icon_profile = 'assets/images/linkedin_icon_profile.svg';
+  static const String twitter_icon_profile = 'assets/images/twitter_icon_profile.svg';
+  static const String github_icon_profile = 'assets/images/github_icon_profile.png';
+  static const String instagram_icon_profile = 'assets/images/instagram_icon_profile.png';
+  static const String location_profile = 'assets/images/location_profile.svg';
+  static const String remove_item_cross = 'assets/images/remove_item_cross.png';
 
 
   static const String login_top = 'assets/images/login_top.png';

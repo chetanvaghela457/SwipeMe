@@ -17,7 +17,8 @@ class TitleWithFieldProfile extends StatelessWidget {
       this.hintText,
       this.isCompalsory,
       this.isDropDown,
-      this.lines})
+      this.lines,
+      this.onTap})
       : super(key: key);
 
   TextEditingController? controller;
@@ -67,41 +68,43 @@ class TitleWithFieldProfile extends StatelessWidget {
                   FilteringTextInputFormatter.deny(RegExp(r" "))
                 ],
                 textInputAction: TextInputAction.next)
-            : Container(
-                width: width,
-                height: height ?? 40,
-                decoration: BoxDecoration(
-                  color: cTextFieldBackground,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: Center(
-                          child: Text(
-                            hintText ?? "",
-                            style: AppStyle.textStyleFamilyMontserratMedium
-                                .copyWith(
-                                    color: cTextFieldHint,
-                                    fontSize: 13),
+            : GestureDetector(
+                onTap: onTap,
+                child: Container(
+                    width: width,
+                    height: height ?? 40,
+                    decoration: BoxDecoration(
+                      color: cTextFieldBackground,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15),
+                            child: Center(
+                              child: Text(
+                                hintText ?? "",
+                                style: AppStyle.textStyleFamilyMontserratMedium
+                                    .copyWith(
+                                        color: cTextFieldHint, fontSize: 13),
+                              ),
+                            ),
                           ),
-                        ),
+                          Container(
+                            margin: EdgeInsets.only(right: 10),
+                            child: SvgPicture.asset(
+                              Assets.dropDown,
+                              width: 8,
+                              height: 8,
+                            ),
+                          ),
+                        ],
                       ),
-                      Container(
-                        margin: EdgeInsets.only(right: 10),
-                        child: SvgPicture.asset(
-                          Assets.dropDown,
-                          width: 8,
-                          height: 8,
-                        ),
-                      ),
-                    ],
-                  ),
-                )),
+                    )),
+              ),
       ],
     );
   }

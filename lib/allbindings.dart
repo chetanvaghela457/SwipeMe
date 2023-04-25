@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:swipeme/screens/choice_screen/choice_screen_logic.dart';
 import 'package:swipeme/screens/create_profile_screen/create_profile_logic.dart';
+import 'package:swipeme/screens/preview_profile_screen/preview_profile_logic.dart';
+import 'package:swipeme/screens/published_profile_screen/published_profile_screen_logic.dart';
 import 'package:swipeme/screens/signin_screen/signin_screen_logic.dart';
 import 'package:swipeme/screens/splash_screen/splash_screen_logic.dart';
 import 'package:swipeme/screens/welcome_screen/welcome_screen_logic.dart';
@@ -45,6 +47,19 @@ class RegisterScreenBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => RegisterScreenLogic());
+  }
+}
+class PreviewProfileScreenBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => PreviewProfileScreenLogic());
+  }
+}
+
+class PublishedProfileScreenBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => PublishedProfileScreenLogic());
   }
 }
 

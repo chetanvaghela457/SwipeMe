@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:swipeme/Widget/CornerPlusButton.dart';
+import 'package:swipeme/Widget/CustomDropdown.dart';
 import 'package:swipeme/Widget/TitleWithFieldProfile.dart';
 import 'package:swipeme/Widget/cbutton.dart';
 import 'package:swipeme/Widget/cbuttonborder.dart';
+import 'package:swipeme/Widget/multilineTextField.dart';
+import 'package:swipeme/constant/app_constant.dart';
 import 'package:swipeme/constant/app_image.dart';
 import 'package:swipeme/constant/appstyle.dart';
 import 'package:swipeme/constant/colors.dart';
@@ -179,25 +184,45 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                     SizedBox(
                       height: h * 0.012,
                     ),
-                    TitleWithFieldProfile(
-                      isCompalsory: true,
-                      isDropDown: true,
-                      controller: controller.firstNameController,
+                    Container(
                       width: w * 0.8,
-                      hintText: "Click to choose",
-                      mainTxtTitle: "Gender",
+                      child: Row(
+                        children: [
+                          Text(
+                            "Gender",
+                            style: AppStyle.textStyleFamilyMontserratMedium
+                                .copyWith(color: cBlack, fontSize: 13),
+                          ),
+                          Text(
+                            "*",
+                            style: AppStyle.textStyleFamilyMontserratMedium
+                                .copyWith(color: cStarColor, fontSize: 13),
+                          )
+                        ],
+                      ),
                     ),
+                    genderDropDown(w,h),
                     SizedBox(
                       height: h * 0.012,
                     ),
-                    TitleWithFieldProfile(
-                      isCompalsory: true,
-                      isDropDown: true,
-                      controller: controller.firstNameController,
+                    Container(
                       width: w * 0.8,
-                      hintText: "Click to choose",
-                      mainTxtTitle: "User Type",
+                      child: Row(
+                        children: [
+                          Text(
+                            "User Type",
+                            style: AppStyle.textStyleFamilyMontserratMedium
+                                .copyWith(color: cBlack, fontSize: 13),
+                          ),
+                          Text(
+                            "*",
+                            style: AppStyle.textStyleFamilyMontserratMedium
+                                .copyWith(color: cStarColor, fontSize: 13),
+                          )
+                        ],
+                      ),
                     ),
+                    uperTypeDropDown(w,h),
                     SizedBox(
                       height: h * 0.012,
                     ),
@@ -217,6 +242,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                       height: h * 0.012,
                     ),
                     CornerPlusButton(
+                      mainWidth: w,
                       isEditableField: false,
                       width: w * 0.8,
                       hintText: "Add experience",
@@ -244,6 +270,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                       height: h * 0.012,
                     ),
                     CornerPlusButton(
+                      mainWidth: w,
                       isEditableField: false,
                       width: w * 0.8,
                       hintText: "Add qualification",
@@ -251,7 +278,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                         controller.openEducationDialog();
                       },
                     ),
-                    listEducation(w,h),
+                    listEducation(w, h),
                     SizedBox(
                       height: h * 0.012,
                     ),
@@ -271,10 +298,25 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                       height: h * 0.012,
                     ),
                     CornerPlusButton(
-                      isEditableField: false,
+                      mainWidth: w,
+                      isEditableField: true,
                       width: w * 0.8,
+                      controller: controller.skillsController,
+                      height: 45,
+                      showPlusButton: true,
                       hintText: "Add Skills",
+                      onTap: () {
+                        if (controller.skillsController.text.isNotEmpty) {
+                          controller.skillsData.value
+                              .add(controller.skillsController.text);
+                          controller.skillsController.clear();
+                        }
+                      },
                     ),
+                    SizedBox(
+                      height: h * 0.012,
+                    ),
+                    skillData(w, h),
                     SizedBox(
                       height: h * 0.012,
                     ),
@@ -294,29 +336,65 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                       height: h * 0.012,
                     ),
                     CornerPlusButton(
-                      isEditableField: false,
-                      width: w * 0.8,
-                      hintText: "Add Skills",
-                    ),
-
-                    CornerPlusButton(
+                      mainWidth: w,
                       isEditableField: true,
                       width: w * 0.8,
+                      showPlusButton: true,
+                      hintText: "Heading",
+                      controller: controller.headingController,
+                      onTap: () {
+                        if (controller.headingController.text.isNotEmpty &&
+                            controller.urlController.text.isNotEmpty) {
+                          PortfolioModel model = PortfolioModel(
+                              heading: controller.headingController.text,
+                              url: controller.urlController.text);
+
+                          controller.portfolioData.value.add(model);
+                          controller.headingController.clear();
+                          controller.urlController.clear();
+                        }
+                      },
+                    ),
+                    CornerPlusButton(
+                      mainWidth: w,
+                      isEditableField: true,
+                      width: w * 0.8,
+                      controller: controller.urlController,
                       hintText: "Add Url Here",
                     ),
-                    listPortfolio(w,h),
+                    listPortfolio(w, h),
                     SizedBox(
                       height: h * 0.012,
                     ),
-                    TitleWithFieldProfile(
-                      isCompalsory: true,
-                      isDropDown: false,
-                      lines: 5,
-                      controller: controller.aboutYourSelfController,
+                    Container(
                       width: w * 0.8,
-                      hintText: "Professional",
-                      mainTxtTitle: "About Self",
+                      child: Row(
+                        children: [
+                          Text(
+                            "About Self",
+                            style: AppStyle.textStyleFamilyMontserratMedium
+                                .copyWith(color: cBlack, fontSize: 13),
+                          ),
+                          Text(
+                            "*",
+                            style: AppStyle.textStyleFamilyMontserratMedium
+                                .copyWith(color: cStarColor, fontSize: 13),
+                          )
+                        ],
+                      ),
                     ),
+                    SizedBox(
+                      height: h * 0.012,
+                    ),
+                    MultiLineTextField(
+                        controller: controller.emailController,
+                        hintText: "Professional",
+                        height: h * 0.20,
+                        textInputType: TextInputType.multiline,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r" "))
+                        ],
+                        textInputAction: TextInputAction.next),
                     SizedBox(
                       height: h * 0.012,
                     ),
@@ -418,7 +496,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                       height: 50,
                       width: w * 0.80,
                       onTap: () {
-                        // Get.toNamed(AppRoutes.createProfileScreen);
+                        controller.openPreviewProfileScreen();
                       },
                       child: Center(
                         child: Text("Preview Profile",
@@ -433,7 +511,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                       height: 50,
                       width: w * 0.80,
                       onTap: () {
-                        // Get.toNamed(AppRoutes.createProfileScreen);
+                        controller.openPublishedProfileScreen();
                       },
                       child: Center(
                         child: Text("Publish",
@@ -483,7 +561,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                       height: 50,
                       width: w * 0.80,
                       onTap: () {
-                        // Get.toNamed(AppRoutes.createProfileScreen);
+                        controller.openCvUploadDialog();
                       },
                       child: Center(
                         child: Text("Upload CV",
@@ -500,6 +578,52 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
             );
           }),
         ));
+  }
+
+  Widget skillData(double width, double height) {
+    return controller.skillsData.value.isNotEmpty
+        ? Container(
+            width: width * 0.8,
+            child: Wrap(
+              direction: Axis.horizontal,
+              children: controller.skillsData.value
+                  .map((element) => skillsItem(width, height, element))
+                  .toList(),
+            ),
+          )
+        : SizedBox();
+  }
+
+  Widget skillsItem(double width, double height, String data) {
+    return Container(
+      margin: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: cButtonColor, width: 2),
+        color: cWhite,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              data,
+              style: AppStyle.textStyleFamilyMontserratMedium
+                  .copyWith(fontSize: 15, color: cButtonColor),
+            ),
+            SizedBox(
+              width: width * 0.01,
+            ),
+            Image.asset(
+              Assets.remove_item_cross,
+              width: 25,
+              height: 25,
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Widget listExperience(double width, double height) {
@@ -532,65 +656,63 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
         : SizedBox();
   }
 
-
   Widget listPortfolio(double width, double height) {
     return controller.portfolioData.value.isNotEmpty
         ? Container(
-      margin: EdgeInsets.only(
-          left: width * 0.1,
-          right: width * 0.1,
-          top: height * 0.01,
-          bottom: height * 0.01),
-      width: width * 0.8,
-      child: ReorderableListView.builder(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          final item = controller.portfolioData.value[index];
+            margin: EdgeInsets.only(
+                left: width * 0.1,
+                right: width * 0.1,
+                top: height * 0.01,
+                bottom: height * 0.01),
+            width: width * 0.8,
+            child: ReorderableListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final item = controller.portfolioData.value[index];
 
-          return portfolioItem(width, height, index, item);
-        },
-        itemCount: controller.portfolioData.value.length,
-        onReorder: (oldIndex, newIndex) {
-          final index = newIndex > oldIndex ? newIndex - 1 : newIndex;
+                return portfolioItem(width, height, index, item);
+              },
+              itemCount: controller.portfolioData.value.length,
+              onReorder: (oldIndex, newIndex) {
+                final index = newIndex > oldIndex ? newIndex - 1 : newIndex;
 
-          final portfolioData =
-          controller.portfolioData.value.removeAt(oldIndex);
-          controller.portfolioData.value.insert(index, portfolioData);
-        },
-      ),
-    )
+                final portfolioData =
+                    controller.portfolioData.value.removeAt(oldIndex);
+                controller.portfolioData.value.insert(index, portfolioData);
+              },
+            ),
+          )
         : SizedBox();
   }
-
 
   Widget listEducation(double width, double height) {
     return controller.educationData.value.isNotEmpty
         ? Container(
-      margin: EdgeInsets.only(
-          left: width * 0.1,
-          right: width * 0.1,
-          top: height * 0.01,
-          bottom: height * 0.01),
-      width: width * 0.8,
-      child: ReorderableListView.builder(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          final item = controller.educationData.value[index];
+            margin: EdgeInsets.only(
+                left: width * 0.1,
+                right: width * 0.1,
+                top: height * 0.01,
+                bottom: height * 0.01),
+            width: width * 0.8,
+            child: ReorderableListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final item = controller.educationData.value[index];
 
-          return educationItem(width, height, index, item);
-        },
-        itemCount: controller.educationData.value.length,
-        onReorder: (oldIndex, newIndex) {
-          final index = newIndex > oldIndex ? newIndex - 1 : newIndex;
+                return educationItem(width, height, index, item);
+              },
+              itemCount: controller.educationData.value.length,
+              onReorder: (oldIndex, newIndex) {
+                final index = newIndex > oldIndex ? newIndex - 1 : newIndex;
 
-          final educationData =
-          controller.educationData.value.removeAt(oldIndex);
-          controller.educationData.value.insert(index, educationData);
-        },
-      ),
-    )
+                final educationData =
+                    controller.educationData.value.removeAt(oldIndex);
+                controller.educationData.value.insert(index, educationData);
+              },
+            ),
+          )
         : SizedBox();
   }
 
@@ -598,9 +720,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
       double width, double height, int index, PortfolioModel model) {
     return Container(
       key: ValueKey(model),
-      margin: EdgeInsets.only(
-          top: height * 0.006,
-          bottom: height * 0.006),
+      margin: EdgeInsets.only(top: height * 0.006, bottom: height * 0.006),
       decoration: BoxDecoration(
         color: cPortfolioColor,
         borderRadius: BorderRadius.circular(8),
@@ -675,9 +795,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
       double width, double height, int index, ExperienceModel model) {
     return Container(
       key: ValueKey(model),
-      margin: EdgeInsets.only(
-          top: height * 0.006,
-          bottom: height * 0.006),
+      margin: EdgeInsets.only(top: height * 0.006, bottom: height * 0.006),
       decoration: BoxDecoration(
         color: cButtonColor,
         borderRadius: BorderRadius.circular(8),
@@ -785,14 +903,11 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
     );
   }
 
-
   Widget educationItem(
       double width, double height, int index, EducationModel model) {
     return Container(
       key: ValueKey(model),
-      margin: EdgeInsets.only(
-          top: height * 0.006,
-          bottom: height * 0.006),
+      margin: EdgeInsets.only(top: height * 0.006, bottom: height * 0.006),
       decoration: BoxDecoration(
         color: cEducationColor,
         borderRadius: BorderRadius.circular(8),
@@ -858,7 +973,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                 Container(
                     width: width * 0.66,
                     child: Text(
-                      model.startDate + " - "+ model.endDate,
+                      model.startDate + " - " + model.endDate,
                       style: AppStyle.textStyleFamilyMontserratSemiBold
                           .copyWith(color: cYearEducationColor, fontSize: 12),
                     )),
@@ -868,6 +983,158 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
               ],
             )
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget genderDropDown(double w,double h) {
+    return  Container(
+      child: CustomDropdown<int>(
+        onChange: (int index) =>
+        {controller.gender.value = Const.genderList[index]},
+        dropdownButtonStyle: DropdownButtonStyle(
+          width: w * 0.8,
+          height: 50,
+          elevation: 1,
+          backgroundColor: Colors.white,
+          primaryColor: Colors.black87,
+        ),
+        hideIcon: true,
+        dropdownStyle: DropdownStyle(
+            padding: EdgeInsets.all(5),
+            shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  color: Colors.grey,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(7))),
+        items: Const.genderList
+            .asMap()
+            .entries
+            .map(
+              (item) => DropdownItem<int>(
+              value: item.key + 1,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  item.value,
+                  style: AppStyle
+                      .textStyleFamilyMontserratMedium
+                      .copyWith(
+                      color: cBlack, fontSize: 13),
+                ),
+              )),
+        )
+            .toList(),
+        child: Container(
+          width: w * 0.8,
+          height: 40,
+          decoration: BoxDecoration(
+            color: cTextFieldBackground,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text(
+                  controller.gender.value.isNotEmpty
+                      ? controller.gender.value
+                      : "Click to Choose",
+                  style: AppStyle
+                      .textStyleFamilyMontserratMedium
+                      .copyWith(
+                      color: cTextFieldHint, fontSize: 13),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 10),
+                child: SvgPicture.asset(
+                  Assets.dropDown,
+                  width: 8,
+                  height: 8,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget uperTypeDropDown(double w,double h) {
+    return  Container(
+      child: CustomDropdown<int>(
+        onChange: (int index) =>
+        {controller.userType.value = Const.userType[index]},
+        dropdownButtonStyle: DropdownButtonStyle(
+          width: w * 0.8,
+          height: 50,
+          elevation: 1,
+          backgroundColor: Colors.white,
+          primaryColor: Colors.black87,
+        ),
+        hideIcon: true,
+        dropdownStyle: DropdownStyle(
+            padding: EdgeInsets.all(5),
+            shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  color: Colors.grey,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(7))),
+        items: Const.userType
+            .asMap()
+            .entries
+            .map(
+              (item) => DropdownItem<int>(
+              value: item.key + 1,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  item.value,
+                  style: AppStyle
+                      .textStyleFamilyMontserratMedium
+                      .copyWith(
+                      color: cBlack, fontSize: 13),
+                ),
+              )),
+        )
+            .toList(),
+        child: Container(
+          width: w * 0.8,
+          height: 40,
+          decoration: BoxDecoration(
+            color: cTextFieldBackground,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text(
+                  controller.userType.value.isNotEmpty
+                      ? controller.userType.value
+                      : "Click to Choose",
+                  style: AppStyle
+                      .textStyleFamilyMontserratMedium
+                      .copyWith(
+                      color: cTextFieldHint, fontSize: 13),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 10),
+                child: SvgPicture.asset(
+                  Assets.dropDown,
+                  width: 8,
+                  height: 8,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

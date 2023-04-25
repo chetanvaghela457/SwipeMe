@@ -8,6 +8,21 @@ class Const {
   static const buttonRadius = 15.0;
   static const welcome_circle_raduis = 35.0;
 
+  static List<String> genderList = [
+    "Male",
+    "Female",
+    "Other"
+  ];
+
+  static List<String> userType = [
+    "Fresher",
+    "Professional"
+  ];
+
+  static List<String> employmentType = [
+    "Full Time",
+    "Part Time"
+  ];
 
   /// SAVE PREFERENCE KEY ///
   static const prefEmail = 'email';

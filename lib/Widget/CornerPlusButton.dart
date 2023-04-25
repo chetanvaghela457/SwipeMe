@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:swipeme/Widget/ctextformfield.dart';
@@ -16,13 +17,16 @@ class CornerPlusButton extends StatelessWidget {
       this.backgroundColor,
       this.hintText,
       this.isEditableField,
-      this.onTap})
+      this.onTap,
+        this.showPlusButton,
+      required this.mainWidth})
       : super(key: key);
 
   TextEditingController? controller;
   String? hintText;
   double? width, height;
-  bool? isEditableField;
+  double mainWidth;
+  bool? isEditableField,showPlusButton;
   Color? backgroundColor;
   VoidCallback? onTap;
 
@@ -32,55 +36,92 @@ class CornerPlusButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         isEditableField == true
-            ? TextFormFieldCorner(
+            ? Container(
                 width: width,
-                height: 40,
-                controller: controller,
-                hintText: hintText ?? "",
-                textInputType: TextInputType.emailAddress,
-                inputFormatters: [
-                  FilteringTextInputFormatter.deny(RegExp(r" "))
-                ],
-                textInputAction: TextInputAction.next)
-            : GestureDetector(
-              onTap: onTap,
-              child: Container(
-                  width: width,
-                  height: height ?? 40,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: cTextFieldHint, width: 1),
-                    color: cWhite,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: Center(
-                            child: Text(
-                              hintText ?? "",
-                              style: AppStyle.textStyleFamilyMontserratMedium
-                                  .copyWith(
-                                      color: cTextFieldHint,
-                                      fontSize: 13),
-                            ),
+                height: height ?? 45,
+                decoration: BoxDecoration(
+                  border: Border.all(color: cTextFieldHint, width: 1),
+                  color: cWhite,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: 8),
+                        width:mainWidth*0.7,
+                        child: TextFormField(
+                          style: AppStyle.textStyleFamilyMontserratMedium.copyWith(fontSize: 15),
+                          controller: controller,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.done,
+                          decoration: InputDecoration(
+                            hintText: hintText ?? "",
+                            hintStyle: AppStyle.textStyleFamilyMontserratMedium.copyWith(height: 2, color: cTextFieldHint, fontSize: 13),
+                            border: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            focusedErrorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(right: 10),
+                      ),
+                      showPlusButton == true ? Container(
+                        margin: EdgeInsets.only(right: 10),
+                        child: GestureDetector(
+                          onTap: onTap,
                           child: Image.asset(
                             Assets.plus_icon,
                             width: 20,
                             height: 20,
                           ),
                         ),
-                      ],
+                      ):SizedBox(),
+                    ],
+                  ),
+                ),
+              )
+            : GestureDetector(
+                onTap: onTap,
+                child: Container(
+                    width: width,
+                    height: height ?? 40,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: cTextFieldHint, width: 1),
+                      color: cWhite,
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                  )),
-            ),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15),
+                            child: Center(
+                              child: Text(
+                                hintText ?? "",
+                                style: AppStyle.textStyleFamilyMontserratMedium
+                                    .copyWith(
+                                        color: cTextFieldHint, fontSize: 13),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: 10),
+                            child: Image.asset(
+                              Assets.plus_icon,
+                              width: 20,
+                              height: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
+              ),
       ],
     );
   }

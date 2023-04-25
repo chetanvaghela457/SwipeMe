@@ -22,3 +22,4 @@ Color cColorSideNavHeader =  const Color(0xFFE2E5FF);
 Color cColorSeeMore =  const Color(0x1C35AD4F);
 Color cFacebookLoginColor =  const Color(0xFF1877F2);
 Color cStarColor =  const Color(0xFFE40000);
+Color cSwiperShadowColor =  const Color(0x25000000);
