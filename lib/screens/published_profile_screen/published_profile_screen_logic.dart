@@ -19,4 +19,8 @@ class PublishedProfileScreenLogic extends GetxController {
     // TODO: implement onClose
     super.onClose();
   }
+
+  void openDashboardScreen() {
+    Get.toNamed(AppRoutes.dashboardScreen);
+  }
 }

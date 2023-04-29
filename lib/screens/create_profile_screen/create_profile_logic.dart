@@ -6,6 +6,7 @@ import 'package:swipeme/AppRoutes/app_route.dart';
 import 'package:swipeme/Widget/cvUploadDialog.dart';
 import 'package:swipeme/Widget/educationDialog.dart';
 import 'package:swipeme/Widget/workExperienceDialog.dart';
+import 'package:swipeme/model/user_model.dart';
 import 'package:swipeme/screens/create_profile_screen/ExperienceModel.dart';
 
 class CreateProfileLogic extends GetxController {
@@ -48,181 +49,186 @@ class CreateProfileLogic extends GetxController {
 
   RxString startDateEdu = "".obs, endDateEdu = "".obs;
 
-  Rx<RxList<ExperienceModel>> exprienceData =
-      RxList<ExperienceModel>.empty().obs;
+  Rx<RxList<WorkExperienceModel>> exprienceData =
+      RxList<WorkExperienceModel>.empty().obs;
   Rx<RxList<EducationModel>> educationData = RxList<EducationModel>.empty().obs;
-  Rx<RxList<PortfolioModel>> portfolioData = RxList<PortfolioModel>.empty().obs;
+  Rx<RxList<ProjectsListModel>> portfolioData = RxList<ProjectsListModel>.empty().obs;
   Rx<RxList<String>> skillsData = RxList<String>.empty().obs;
 
-  ExperienceModel experienceModel = ExperienceModel(
-      jobTitle: "Head Engineer",
-      employementType: "Head Engineer",
-      companyName: "Pricewater CooperHouse",
-      location: "Kolkata",
-      startDate: "15/10/2020",
-      endDate: "25/04/2023",
-      description:
-          "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidid......Read More",
-      currentlyWorkHere: false);
+  // WorkExperienceModel experienceModel = WorkExperienceModel(
+  //     jobTitle: "Head Engineer",
+  //     employmentType: "Head Engineer",
+  //     companyName: "Pricewater CooperHouse",
+  //     location: "Kolkata",
+  //     startDate: "15/10/2020",
+  //     endDate: "25/04/2023",
+  //     description:
+  //         "Lorem ipsum dolor sit amet, consectetur adipisci elit, sed do eiusmod tempor incidid......Read More",
+  //     isCurrentlyWorkHere: false);
+  //
+  // WorkExperienceModel experienceModel1 = WorkExperienceModel(
+  //     jobTitle: "ioS",
+  //     employmentType: "employementType",
+  //     companyName: "companyName",
+  //     location: "location",
+  //     startDate: "startDate",
+  //     endDate: "endDate",
+  //     description: "description",
+  //     isCurrentlyWorkHere: false);
+  //
+  // EducationModel educationModel = EducationModel(
+  //     collegeName: "The Heritage",
+  //     degree: "Masters in Engineering",
+  //     field: "Masters in Engineering",
+  //     grade: "89",
+  //     startDate: "2015",
+  //     endDate: "2019",
+  //     description: "description",
+  //     currentlyPursuing: false);
+  //
+  // EducationModel educationModel1 = EducationModel(
+  //     collegeName: "The Heritage",
+  //     degree: "Masters in Engineering",
+  //     field: "Masters in Engineering",
+  //     grade: "89",
+  //     startDate: "2015",
+  //     endDate: "2019",
+  //     description: "description",
+  //     currentlyPursuing: false);
 
-  ExperienceModel experienceModel1 = ExperienceModel(
-      jobTitle: "ioS",
-      employementType: "employementType",
-      companyName: "companyName",
-      location: "location",
-      startDate: "startDate",
-      endDate: "endDate",
-      description: "description",
-      currentlyWorkHere: false);
-
-  EducationModel educationModel = EducationModel(
-      schoolCollageName: "The Heritage",
-      deegree: "Masters in Engineering",
-      fieldOfStudy: "Masters in Engineering",
-      grade: "89",
-      startDate: "2015",
-      endDate: "2019",
-      description: "description",
-      currentlyPursuing: false);
-
-  EducationModel educationModel1 = EducationModel(
-      schoolCollageName: "The Heritage",
-      deegree: "Masters in Engineering",
-      fieldOfStudy: "Masters in Engineering",
-      grade: "89",
-      startDate: "2015",
-      endDate: "2019",
-      description: "description",
-      currentlyPursuing: false);
-
-  PortfolioModel portfolioModel = PortfolioModel(
+  ProjectsListModel portfolioModel = ProjectsListModel(
       heading: "Levi’s Data Management", url: "http://www.javascriptkit.com");
-  PortfolioModel portfolioModel1 = PortfolioModel(
+  ProjectsListModel portfolioModel1 = ProjectsListModel(
       heading: "Levi’s Data Management", url: "http://www.javascriptkit.com");
 
   @override
   void onInit() async {
-    exprienceData.value.add(experienceModel);
-    exprienceData.value.add(experienceModel1);
-
-    educationData.value.add(educationModel);
-    educationData.value.add(educationModel1);
+    // exprienceData.value.add(experienceModel);
+    // exprienceData.value.add(experienceModel1);
+    //
+    // educationData.value.add(educationModel);
+    // educationData.value.add(educationModel1);
 
     portfolioData.value.add(portfolioModel);
     portfolioData.value.add(portfolioModel1);
     super.onInit();
   }
 
-  void openExperienceDialog() {
-    Get.defaultDialog(
-      title: "",
-      titlePadding: EdgeInsets.all(0),
-      radius: 5.0,
-      content: Expanded(
-        child: WorkExperienceDialog(
-          onAdd: () async {
+  void onPublishClicked() {
 
-            print("jobTitleController.text"+jobTitleController.text);
-            print("companyNameController.text"+companyNameController.text);
-            print("locationController.text"+locationController.text);
-            print("employmentType.value"+employmentType.value);
-            print("startDate.value"+startDate.value);
-            print("endDate.value"+endDate.value);
 
-            if (jobTitleController.text.isNotEmpty &&
-                companyNameController.text.isNotEmpty &&
-                locationController.text.isNotEmpty &&
-                employmentType.value.isNotEmpty &&
-                startDate.value.isNotEmpty &&
-                endDate.value.isNotEmpty) {
-              ExperienceModel experience = ExperienceModel(
-                  jobTitle: jobTitleController.text,
-                  employementType: employmentType.value,
-                  companyName: companyNameController.text,
-                  location: locationController.text,
-                  startDate: startDate.value,
-                  endDate: endDate.value,
-                  description: descriptionController.text,
-                  currentlyWorkHere: isCurrentlyWorkThere.value);
 
-              exprienceData.value.add(experience);
-              jobTitleController.clear();
-              employmentType = "".obs;
-              companyNameController.clear();
-              locationController.clear();
-              descriptionController.clear();
-              startDate = "".obs;
-              endDate = "".obs;
-              isCurrentlyWorkThere = false.obs;
-
-              debugPrint('Add Data : ');
-            } else {
-              debugPrint('Not Added : ');
-            }
-
-            Get.back();
-            // CheckPremission();
-          },
-          onCancel: () {
-            Get.back();
-            debugPrint('onTapDeny : ');
-          },
-        ),
-      ),
-    );
   }
 
-  void openEducationDialog() {
-    Get.defaultDialog(
-      title: "",
-      titlePadding: EdgeInsets.zero,
-      radius: 5.0,
-      content: Expanded(
-        child: EducationDialog(
-          onAdd: () async {
-            if (schoolClgController.text.isNotEmpty &&
-                degreeController.text.isNotEmpty &&
-                fieldController.text.isNotEmpty &&
-                gradeController.text.isNotEmpty &&
-                startDateEdu.value.isNotEmpty &&
-                endDateEdu.value.isNotEmpty) {
-              EducationModel educationModel = EducationModel(
-                  schoolCollageName: schoolClgController.value.text,
-                  deegree: degreeController.value.text,
-                  fieldOfStudy: fieldController.value.text,
-                  grade: gradeController.value.text,
-                  startDate: startDateEdu.value,
-                  endDate: endDateEdu.value,
-                  description: descriptionEduController.value.text,
-                  currentlyPursuing: isCurrentlyPursuing.value);
+  void openExperienceDialog(BuildContext context) {
+    
+    showDialog(context: context, builder: (_) => AlertDialog(
+      insetPadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.zero,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      content: WorkExperienceDialog(
+        onAdd: () async {
 
-              educationData.value.add(educationModel);
-              schoolClgController.clear();
-              degreeController.clear();
-              fieldController.clear();
-              gradeController.clear();
-              descriptionEduController.clear();
-              startDateEdu = "".obs;
-              endDateEdu = "".obs;
-              isCurrentlyPursuing = false.obs;
-            } else {}
-            Get.back();
-            // CheckPremission();
-          },
-          onCancel: () {
-            Get.back();
-            debugPrint('onTapDeny : ');
-          },
-        ),
+          print("jobTitleController.text"+jobTitleController.text);
+          print("companyNameController.text"+companyNameController.text);
+          print("locationController.text"+locationController.text);
+          print("employmentType.value"+employmentType.value);
+          print("startDate.value"+startDate.value);
+          print("endDate.value"+endDate.value);
+
+          if (jobTitleController.text.isNotEmpty &&
+              companyNameController.text.isNotEmpty &&
+              locationController.text.isNotEmpty &&
+              employmentType.value.isNotEmpty &&
+              startDate.value.isNotEmpty &&
+              endDate.value.isNotEmpty) {
+            WorkExperienceModel experience = WorkExperienceModel(
+                jobTitle: jobTitleController.text,
+                employmentType: employmentType.value,
+                companyName: companyNameController.text,
+                location: locationController.text,
+                startDate: startDate.value,
+                endDate: endDate.value,
+                description: descriptionController.text,
+                isCurrentlyWorkHere: isCurrentlyWorkThere.value);
+
+            exprienceData.value.add(experience);
+            jobTitleController.clear();
+            employmentType = "".obs;
+            companyNameController.clear();
+            locationController.clear();
+            descriptionController.clear();
+            startDate = "".obs;
+            endDate = "".obs;
+            isCurrentlyWorkThere = false.obs;
+
+            debugPrint('Add Data : ');
+          } else {
+            debugPrint('Not Added : ');
+          }
+
+          Get.back();
+          // CheckPremission();
+        },
+        onCancel: () {
+          Get.back();
+          debugPrint('onTapDeny : ');
+        },
       ),
-    );
+    ));
   }
 
-  void openCvUploadDialog() {
-    Get.defaultDialog(
-      title: "",
-      titlePadding: EdgeInsets.zero,
-      radius: 5.0,
+  void openEducationDialog(BuildContext context) {
+
+    showDialog(context: context, builder: (_) => AlertDialog(
+      insetPadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.zero,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      content: EducationDialog(
+        onAdd: () async {
+          if (schoolClgController.text.isNotEmpty &&
+              degreeController.text.isNotEmpty &&
+              fieldController.text.isNotEmpty &&
+              gradeController.text.isNotEmpty &&
+              startDateEdu.value.isNotEmpty &&
+              endDateEdu.value.isNotEmpty) {
+            EducationModel educationModel = EducationModel(
+                collegeName: schoolClgController.value.text,
+                degree: degreeController.value.text,
+                field: fieldController.value.text,
+                grade: gradeController.value.text,
+                startDate: startDateEdu.value,
+                endDate: endDateEdu.value,
+                description: descriptionEduController.value.text,
+                currentlyPursuing: isCurrentlyPursuing.value);
+
+            educationData.value.add(educationModel);
+            schoolClgController.clear();
+            degreeController.clear();
+            fieldController.clear();
+            gradeController.clear();
+            descriptionEduController.clear();
+            startDateEdu = "".obs;
+            endDateEdu = "".obs;
+            isCurrentlyPursuing = false.obs;
+          } else {}
+          Get.back();
+          // CheckPremission();
+        },
+        onCancel: () {
+          Get.back();
+          debugPrint('onTapDeny : ');
+        },
+      ),
+    ));
+  }
+
+  void openCvUploadDialog(BuildContext context) {
+
+    showDialog(context: context, builder: (_) => AlertDialog(
+      insetPadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.zero,
+      clipBehavior: Clip.antiAliasWithSaveLayer,
       content: CvUploadDialog(
         onAdd: () async {
           debugPrint('onTapAllow : ');
@@ -234,7 +240,7 @@ class CreateProfileLogic extends GetxController {
           debugPrint('onTapDeny : ');
         },
       ),
-    );
+    ));
   }
 
   void openPreviewProfileScreen() {

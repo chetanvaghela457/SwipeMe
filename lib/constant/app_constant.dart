@@ -11,12 +11,27 @@ class Const {
   static List<String> genderList = [
     "Male",
     "Female",
-    "Other"
+    "Transgender",
+    "Intersex",
+    "Non-Binary",
+    "Prefer Not to say",
+    "Let me specify"
   ];
 
   static List<String> userType = [
+    "Recruiter",
+    "Professional",
     "Fresher",
-    "Professional"
+    "College Student",
+    "School Student",
+    "Others",
+    "Employer Admin"
+  ];
+
+  static List<String> jobType = [
+    "Full Time",
+    "Part Time",
+    "Freelancer"
   ];
 
   static List<String> employmentType = [

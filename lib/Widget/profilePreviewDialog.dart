@@ -9,6 +9,7 @@ import 'package:swipeme/Widget/cbutton.dart';
 import 'package:swipeme/Widget/cbuttonborder.dart';
 import 'package:swipeme/Widget/multilineTextField.dart';
 import 'package:swipeme/constant/app_image.dart';
+import 'package:swipeme/model/user_model.dart';
 import 'package:swipeme/screens/create_profile_screen/ExperienceModel.dart';
 import 'package:swipeme/screens/preview_profile_screen/preview_profile_logic.dart';
 import '../../Constant/appstyle.dart';
@@ -25,14 +26,14 @@ class ProfilePreviewDialog extends GetView<PreviewProfileScreenLogic> {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
     return Container(
-      width: w * 0.8,
+      width: w * 0.9,
       height: h * 0.8,
       decoration: BoxDecoration(
         color: cWhite,
         borderRadius: BorderRadius.circular(5),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(15.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -61,9 +62,9 @@ class ProfilePreviewDialog extends GetView<PreviewProfileScreenLogic> {
   Widget profileData(double w, double h) {
     return Padding(
       padding: EdgeInsets.only(
-          left: w * 0.02, right: w * 0.02, top: h * 0.02, bottom: h * 0.02),
+          left: w * 0.02, right: w * 0.02, top: h * 0.02),
       child: Container(
-        height: h*0.71,
+        height: h*0.7,
         child: Scrollbar(
           radius: Radius.circular(1),
           trackVisibility: true,
@@ -290,7 +291,7 @@ class ProfilePreviewDialog extends GetView<PreviewProfileScreenLogic> {
       margin: EdgeInsets.only(
           top: height * 0.01,
           bottom: height * 0.01),
-      width: width * 0.65,
+      width: width * 0.8,
       child: ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -312,7 +313,7 @@ class ProfilePreviewDialog extends GetView<PreviewProfileScreenLogic> {
       margin: EdgeInsets.only(
           top: height * 0.01,
           bottom: height * 0.01),
-      width: width * 0.65,
+      width: width * 0.8,
       child: ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -334,7 +335,7 @@ class ProfilePreviewDialog extends GetView<PreviewProfileScreenLogic> {
       margin: EdgeInsets.only(
           top: height * 0.01,
           bottom: height * 0.01),
-      width: width * 0.65,
+      width: width * 0.8,
       child: ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -350,7 +351,7 @@ class ProfilePreviewDialog extends GetView<PreviewProfileScreenLogic> {
   }
 
   Widget portfolioItem(
-      double width, double height, int index, PortfolioModel model) {
+      double width, double height, int index, ProjectsListModel model) {
     return Container(
       key: ValueKey(model),
       margin: EdgeInsets.only(
@@ -374,7 +375,7 @@ class ProfilePreviewDialog extends GetView<PreviewProfileScreenLogic> {
                 Container(
                     width: width * 0.6,
                     child: Text(
-                      model.heading,
+                      model.heading.toString(),
                       style: AppStyle.textStyleFamilyMontserratSemiBold
                           .copyWith(color: cWhite, fontSize: 15),
                     )),
@@ -384,7 +385,7 @@ class ProfilePreviewDialog extends GetView<PreviewProfileScreenLogic> {
                 Container(
                     width: width * 0.6,
                     child: Text(
-                      model.url,
+                      model.url.toString(),
                       style: AppStyle.textStyleFamilyMontserratSemiBold
                           .copyWith(color: cYearEducationColor, fontSize: 11),
                     )),
@@ -400,7 +401,7 @@ class ProfilePreviewDialog extends GetView<PreviewProfileScreenLogic> {
   }
 
   Widget experienceItem(
-      double width, double height, int index, ExperienceModel model) {
+      double width, double height, int index, WorkExperienceModel model) {
     return Container(
       key: ValueKey(model),
       margin: EdgeInsets.only(
@@ -424,7 +425,7 @@ class ProfilePreviewDialog extends GetView<PreviewProfileScreenLogic> {
                 Container(
                     width: width * 0.6,
                     child: Text(
-                      model.companyName,
+                      model.companyName.toString(),
                       style: AppStyle.textStyleFamilyMontserratSemiBold
                           .copyWith(color: cWhite, fontSize: 15),
                     )),
@@ -434,7 +435,7 @@ class ProfilePreviewDialog extends GetView<PreviewProfileScreenLogic> {
                 Container(
                     width: width * 0.6,
                     child: Text(
-                      model.jobTitle,
+                      model.jobTitle.toString(),
                       style: AppStyle.textStyleFamilyMontserratSemiBold
                           .copyWith(color: cWhite, fontSize: 13),
                     )),
@@ -444,7 +445,7 @@ class ProfilePreviewDialog extends GetView<PreviewProfileScreenLogic> {
                 Container(
                     width: width * 0.6,
                     child: Text(
-                      model.startDate + model.endDate,
+                      model.startDate.toString() + model.endDate.toString(),
                       style: AppStyle.textStyleFamilyMontserratSemiBold
                           .copyWith(color: cWhite, fontSize: 11),
                     )),
@@ -464,7 +465,7 @@ class ProfilePreviewDialog extends GetView<PreviewProfileScreenLogic> {
                 Container(
                     width: width * 0.6,
                     child: Text(
-                      model.description,
+                      model.description.toString(),
                       style: AppStyle.textStyleFamilyMontserratSemiBold
                           .copyWith(color: cTextFieldHint, fontSize: 11),
                     )),
@@ -502,7 +503,7 @@ class ProfilePreviewDialog extends GetView<PreviewProfileScreenLogic> {
                 Container(
                     width: width * 0.6,
                     child: Text(
-                      model.schoolCollageName,
+                      model.collegeName.toString(),
                       style: AppStyle.textStyleFamilyMontserratSemiBold
                           .copyWith(color: cWhite, fontSize: 15),
                     )),
@@ -512,7 +513,7 @@ class ProfilePreviewDialog extends GetView<PreviewProfileScreenLogic> {
                 Container(
                     width: width * 0.6,
                     child: Text(
-                      model.deegree,
+                      model.degree.toString(),
                       style: AppStyle.textStyleFamilyMontserratSemiBold
                           .copyWith(color: cWhite, fontSize: 13),
                     )),
@@ -522,7 +523,7 @@ class ProfilePreviewDialog extends GetView<PreviewProfileScreenLogic> {
                 Container(
                     width: width * 0.6,
                     child: Text(
-                      model.startDate + " - "+ model.endDate,
+                      model.startDate.toString() + " - "+ model.endDate.toString(),
                       style: AppStyle.textStyleFamilyMontserratSemiBold
                           .copyWith(color: cYearEducationColor, fontSize: 12),
                     )),

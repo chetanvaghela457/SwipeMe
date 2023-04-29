@@ -4,8 +4,8 @@ import 'package:swipeme/AppRoutes/app_route.dart';
 
 class SplashScreenLogic extends GetxController {
   @override
-  void onInit() async {
-    Future.delayed(Duration(seconds: 4), () async {
+  void onInit(){
+    Future.delayed(Duration(seconds: 4), () {
       Get.toNamed(AppRoutes.welcomeScreen);
     });
     super.onInit();

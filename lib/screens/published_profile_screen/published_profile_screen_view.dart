@@ -157,10 +157,10 @@ class PublishedProfileScreenView extends GetView<PublishedProfileScreenLogic> {
             height: 50,
             width: w * 0.70,
             onTap: () {
-              // controller.openPreviewProfileScreen();
+              controller.openDashboardScreen();
             },
             child: Center(
-              child: Text("Start Sviping Now",
+              child: Text("Start Swiping Now",
                   style: AppStyle.textStyleFamilyMontserratBold
                       .copyWith(color: cWhite, fontSize: 18)),
             ),

@@ -57,61 +57,156 @@ class RegisterScreenView extends GetView<RegisterScreenLogic> {
                 SizedBox(
                   height: h * 0.015,
                 ),
-                CTextFormField(
-                    controller: controller.nameController,
-                    hintText: "Name",
-                    inputFormatters: [
-                      FilteringTextInputFormatter.deny(RegExp(r" "))
-                    ],
-                    textInputAction: TextInputAction.next),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CTextFormField(
+                        controller: controller.nameController,
+                        hintText: "Name",
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r" "))
+                        ],
+                        textInputAction: TextInputAction.next),
+                    Obx(() {
+                      return controller.nameErr.value != ""
+                          ? Container(
+                              width: w * 0.8,
+                              padding: EdgeInsets.only(left: 20),
+                              child: Text(
+                                controller.nameErr.value,
+                                textAlign: TextAlign.end,
+                                style: AppStyle.textStyleFamilyMontserratMedium
+                                    .copyWith(color: cStarColor,fontSize: 11),
+                              ),
+                            )
+                          : SizedBox();
+                    })
+                  ],
+                ),
                 SizedBox(
                   height: h * 0.01,
                 ),
-                CTextFormField(
-                    controller: controller.surNameController,
-                    hintText: "Surname",
-                    inputFormatters: [
-                      FilteringTextInputFormatter.deny(RegExp(r" "))
-                    ],
-                    textInputAction: TextInputAction.next),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CTextFormField(
+                        controller: controller.surNameController,
+                        hintText: "Surname",
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r" "))
+                        ],
+                        textInputAction: TextInputAction.next),
+                    Obx(() {
+                      return controller.surnameErr.value != ""
+                          ? Container(
+                              width: w * 0.8,
+                              padding: EdgeInsets.only(left: 20),
+                              child: Text(
+                                controller.surnameErr.value,
+                                textAlign: TextAlign.end,
+                                style: AppStyle.textStyleFamilyMontserratMedium
+                                    .copyWith(color: cStarColor,fontSize: 11),
+                              ),
+                            )
+                          : SizedBox();
+                    })
+                  ],
+                ),
                 SizedBox(
                   height: h * 0.01,
                 ),
-                CTextFormField(
-                    controller: controller.emailController,
-                    hintText: "Email Id",
-                    textInputType: TextInputType.emailAddress,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.deny(RegExp(r" "))
-                    ],
-                    textInputAction: TextInputAction.next),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CTextFormField(
+                        controller: controller.emailController,
+                        hintText: "Email Id",
+                        textInputType: TextInputType.emailAddress,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r" "))
+                        ],
+                        textInputAction: TextInputAction.next),
+                    Obx(() {
+                      return controller.emailErr.value != ""
+                          ? Container(
+                        width: w * 0.8,
+                        padding: EdgeInsets.only(left: 20),
+                        child: Text(
+                          controller.emailErr.value,
+                          textAlign: TextAlign.end,
+                          style: AppStyle.textStyleFamilyMontserratMedium
+                              .copyWith(color: cStarColor,fontSize: 11),
+                        ),
+                      )
+                          : SizedBox();
+                    })
+                  ],
+                ),
                 SizedBox(
                   height: h * 0.01,
                 ),
-                CTextFormField(
-                    controller: controller.passwordController,
-                    hintText: "Password",
-                    inputFormatters: [
-                      FilteringTextInputFormatter.deny(RegExp(r" "))
-                    ],
-                    textInputAction: TextInputAction.next),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CTextFormField(
+                        controller: controller.passwordController,
+                        hintText: "Password",
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r" "))
+                        ],
+                        textInputAction: TextInputAction.next),
+                    Obx(() {
+                      return controller.passErr.value != ""
+                          ? Container(
+                        width: w * 0.8,
+                        padding: EdgeInsets.only(left: 20),
+                        child: Text(
+                          controller.passErr.value,
+                          textAlign: TextAlign.end,
+                          style: AppStyle.textStyleFamilyMontserratMedium
+                              .copyWith(color: cStarColor,fontSize: 11),
+                        ),
+                      )
+                          : SizedBox();
+                    })
+                  ],
+                ),
                 SizedBox(
                   height: h * 0.01,
                 ),
-                CTextFormField(
-                    controller: controller.cPasswordController,
-                    hintText: "Confirm Password",
-                    inputFormatters: [
-                      FilteringTextInputFormatter.deny(RegExp(r" "))
-                    ],
-                    textInputAction: TextInputAction.next),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CTextFormField(
+                        controller: controller.cPasswordController,
+                        hintText: "Confirm Password",
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r" "))
+                        ],
+                        textInputAction: TextInputAction.done),
+                    Obx(() {
+                      return controller.confirmPasswordErr.value != ""
+                          ? Container(
+                        width: w * 0.8,
+                        padding: EdgeInsets.only(left: 20),
+                        child: Text(
+                          controller.confirmPasswordErr.value,
+                          textAlign: TextAlign.end,
+                          style: AppStyle.textStyleFamilyMontserratMedium
+                              .copyWith(color: cStarColor,fontSize: 11),
+                        ),
+                      )
+                          : SizedBox();
+                    })
+                  ],
+                ),
                 SizedBox(
                   height: h * 0.04,
                 ),
                 CButton(
                   width: w * 0.80,
                   onTap: () {
-                    Get.toNamed(AppRoutes.createProfileScreen);
+                    controller.signUp();
                   },
                   child: Center(
                     child: Text("Register",
@@ -161,7 +256,8 @@ class RegisterScreenView extends GetView<RegisterScreenLogic> {
                     height: 45,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: cFacebookLoginColor, width: 2.5),
+                      border:
+                          Border.all(color: cFacebookLoginColor, width: 2.5),
                       color: cFacebookLoginColor,
                     ),
                     child: Center(
@@ -173,14 +269,16 @@ class RegisterScreenView extends GetView<RegisterScreenLogic> {
                             width: w * 0.05,
                             height: w * 0.05,
                           ),
-                          SizedBox(width: w*0.03,),
+                          SizedBox(
+                            width: w * 0.03,
+                          ),
                           Center(
                             child: Text("Continue with Facebook",
                                 style: AppStyle.textStyleFamilyMontserratMedium
                                     .copyWith(
-                                    color: cWhite,
-                                    letterSpacing: 1,
-                                    fontSize: 13)),
+                                        color: cWhite,
+                                        letterSpacing: 1,
+                                        fontSize: 13)),
                           ),
                         ],
                       ),
@@ -209,14 +307,16 @@ class RegisterScreenView extends GetView<RegisterScreenLogic> {
                             width: w * 0.05,
                             height: w * 0.05,
                           ),
-                          SizedBox(width: w*0.03,),
+                          SizedBox(
+                            width: w * 0.03,
+                          ),
                           Center(
                             child: Text("Continue with Google",
                                 style: AppStyle.textStyleFamilyMontserratMedium
                                     .copyWith(
-                                    color: cBlack,
-                                    letterSpacing: 1,
-                                    fontSize: 13)),
+                                        color: cBlack,
+                                        letterSpacing: 1,
+                                        fontSize: 13)),
                           ),
                         ],
                       ),
@@ -244,14 +344,16 @@ class RegisterScreenView extends GetView<RegisterScreenLogic> {
                             width: w * 0.05,
                             height: w * 0.05,
                           ),
-                          SizedBox(width: w*0.03,),
+                          SizedBox(
+                            width: w * 0.03,
+                          ),
                           Center(
                             child: Text("Continue with Apple",
                                 style: AppStyle.textStyleFamilyMontserratMedium
                                     .copyWith(
-                                    color: cWhite,
-                                    letterSpacing: 1,
-                                    fontSize: 13)),
+                                        color: cWhite,
+                                        letterSpacing: 1,
+                                        fontSize: 13)),
                           ),
                         ],
                       ),
@@ -265,5 +367,4 @@ class RegisterScreenView extends GetView<RegisterScreenLogic> {
       ),
     );
   }
-
 }

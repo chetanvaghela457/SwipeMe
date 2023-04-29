@@ -22,14 +22,14 @@ class CvUploadDialog extends StatelessWidget {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
     return Container(
-      width: w * 0.8,
-      height: h * 0.4,
+      width: w * 0.9,
+      height: h * 0.45,
       decoration: BoxDecoration(
         color: cWhite,
         borderRadius: BorderRadius.circular(5),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(15.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -96,7 +96,7 @@ class CvUploadDialog extends StatelessWidget {
               children: [
                 CButtonBorder(
                   height: 40,
-                  width: w * 0.35,
+                  width: (w * 0.8)/2,
                   onTap: onCancel,
                   child: Center(
                     child: Text("ReUpload",
@@ -106,7 +106,7 @@ class CvUploadDialog extends StatelessWidget {
                 ),
                 CButton(
                   height: 40,
-                  width: w * 0.35,
+                  width: (w * 0.8)/2,
                   onTap: onAdd,
                   child: Center(
                     child: Text("Sure",

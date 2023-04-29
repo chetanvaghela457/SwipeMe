@@ -32,15 +32,15 @@ class EducationDialog extends GetView<CreateProfileLogic> {
     var w = MediaQuery.of(context).size.width;
     return Obx(() {
       return Container(
-        width: w * 0.8,
-        height: h * 0.75,
+        width: w * 0.9,
+        height: h * 0.8,
         decoration: BoxDecoration(
           color: cWhite,
           borderRadius: BorderRadius.circular(5),
         ),
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(15.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -122,7 +122,7 @@ class EducationDialog extends GetView<CreateProfileLogic> {
                     TitleWithFieldProfile(
                       isCompalsory: true,
                       isDropDown: true,
-                      width: w * 0.33,
+                      width: w * 0.38,
                       // controller: controller.countryController,
                       hintText: controller.startDateEdu.value.toString(),
                       mainTxtTitle: "Start Date",
@@ -133,7 +133,7 @@ class EducationDialog extends GetView<CreateProfileLogic> {
                     TitleWithFieldProfile(
                       isCompalsory: true,
                       isDropDown: true,
-                      width: w * 0.33,
+                      width: w * 0.38,
                       // controller: controller.countryController,
                       hintText: controller.endDateEdu.value.toString(),
                       mainTxtTitle: "End Date",
@@ -153,7 +153,7 @@ class EducationDialog extends GetView<CreateProfileLogic> {
                       Text(
                         "Description (Achievements & Resposibilities)",
                         style: AppStyle.textStyleFamilyMontserratMedium
-                            .copyWith(color: cBlack, fontSize: 13),
+                            .copyWith(color: cBlack, fontSize: 12),
                       )
                     ],
                   ),
@@ -179,7 +179,7 @@ class EducationDialog extends GetView<CreateProfileLogic> {
                   children: [
                     CButtonBorder(
                       height: 40,
-                      width: w * 0.35,
+                      width: (w * 0.8)/2,
                       onTap: onCancel,
                       child: Center(
                         child: Text("Cancel",
@@ -189,7 +189,7 @@ class EducationDialog extends GetView<CreateProfileLogic> {
                     ),
                     CButton(
                       height: 40,
-                      width: w * 0.35,
+                      width: (w * 0.8)/2,
                       onTap: onAdd,
                       child: Center(
                         child: Text("Add",

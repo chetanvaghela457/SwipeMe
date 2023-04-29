@@ -84,7 +84,7 @@ class PreviewProfileScreenView extends GetView<PreviewProfileScreenLogic> {
               height: 50,
               width: w * 0.80,
               onTap: () {
-                controller.openProfilePreviewDialog();
+                controller.openProfilePreviewDialog(context);
               },
               child: Center(
                 child: Text("View Full Profile",

@@ -13,6 +13,7 @@ import 'package:swipeme/constant/app_constant.dart';
 import 'package:swipeme/constant/app_image.dart';
 import 'package:swipeme/constant/appstyle.dart';
 import 'package:swipeme/constant/colors.dart';
+import 'package:swipeme/model/user_model.dart';
 import 'package:swipeme/screens/create_profile_screen/ExperienceModel.dart';
 import 'package:swipeme/screens/create_profile_screen/create_profile_logic.dart';
 
@@ -201,7 +202,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                         ],
                       ),
                     ),
-                    genderDropDown(w,h),
+                    genderDropDown(w, h),
                     SizedBox(
                       height: h * 0.012,
                     ),
@@ -222,7 +223,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                         ],
                       ),
                     ),
-                    uperTypeDropDown(w,h),
+                    uperTypeDropDown(w, h),
                     SizedBox(
                       height: h * 0.012,
                     ),
@@ -247,7 +248,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                       width: w * 0.8,
                       hintText: "Add experience",
                       onTap: () {
-                        controller.openExperienceDialog();
+                        controller.openExperienceDialog(context);
                       },
                     ),
                     listExperience(w, h),
@@ -275,7 +276,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                       width: w * 0.8,
                       hintText: "Add qualification",
                       onTap: () {
-                        controller.openEducationDialog();
+                        controller.openEducationDialog(context);
                       },
                     ),
                     listEducation(w, h),
@@ -345,7 +346,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                       onTap: () {
                         if (controller.headingController.text.isNotEmpty &&
                             controller.urlController.text.isNotEmpty) {
-                          PortfolioModel model = PortfolioModel(
+                          ProjectsListModel model = ProjectsListModel(
                               heading: controller.headingController.text,
                               url: controller.urlController.text);
 
@@ -561,7 +562,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                       height: 50,
                       width: w * 0.80,
                       onTap: () {
-                        controller.openCvUploadDialog();
+                        controller.openCvUploadDialog(context);
                       },
                       child: Center(
                         child: Text("Upload CV",
@@ -717,7 +718,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
   }
 
   Widget portfolioItem(
-      double width, double height, int index, PortfolioModel model) {
+      double width, double height, int index, ProjectsListModel model) {
     return Container(
       key: ValueKey(model),
       margin: EdgeInsets.only(top: height * 0.006, bottom: height * 0.006),
@@ -751,7 +752,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                     Container(
                         width: width * 0.55,
                         child: Text(
-                          model.heading,
+                          model.heading.toString(),
                           style: AppStyle.textStyleFamilyMontserratSemiBold
                               .copyWith(color: cWhite, fontSize: 15),
                         )),
@@ -776,7 +777,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                 Container(
                     width: width * 0.66,
                     child: Text(
-                      model.url,
+                      model.url.toString(),
                       style: AppStyle.textStyleFamilyMontserratSemiBold
                           .copyWith(color: cYearEducationColor, fontSize: 12),
                     )),
@@ -792,7 +793,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
   }
 
   Widget experienceItem(
-      double width, double height, int index, ExperienceModel model) {
+      double width, double height, int index, WorkExperienceModel model) {
     return Container(
       key: ValueKey(model),
       margin: EdgeInsets.only(top: height * 0.006, bottom: height * 0.006),
@@ -826,7 +827,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                     Container(
                         width: width * 0.55,
                         child: Text(
-                          model.companyName,
+                          model.companyName.toString(),
                           style: AppStyle.textStyleFamilyMontserratSemiBold
                               .copyWith(color: cWhite, fontSize: 15),
                         )),
@@ -851,7 +852,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                 Container(
                     width: width * 0.66,
                     child: Text(
-                      model.jobTitle,
+                      model.jobTitle.toString(),
                       style: AppStyle.textStyleFamilyMontserratSemiBold
                           .copyWith(color: cWhite, fontSize: 13),
                     )),
@@ -861,7 +862,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                 Container(
                     width: width * 0.66,
                     child: Text(
-                      model.startDate + model.endDate,
+                      model.startDate.toString() + model.endDate.toString(),
                       style: AppStyle.textStyleFamilyMontserratSemiBold
                           .copyWith(color: cTextFieldHint, fontSize: 12),
                     )),
@@ -871,7 +872,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                 Container(
                     width: width * 0.66,
                     child: Text(
-                      model.location,
+                      model.location.toString(),
                       style: AppStyle.textStyleFamilyMontserratSemiBold
                           .copyWith(color: cTextFieldHint, fontSize: 12),
                     )),
@@ -891,7 +892,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                 Container(
                     width: width * 0.66,
                     child: Text(
-                      model.description,
+                      model.description.toString(),
                       style: AppStyle.textStyleFamilyMontserratSemiBold
                           .copyWith(color: cTextFieldHint, fontSize: 10),
                     )),
@@ -938,7 +939,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                     Container(
                         width: width * 0.55,
                         child: Text(
-                          model.schoolCollageName,
+                          model.collegeName.toString(),
                           style: AppStyle.textStyleFamilyMontserratSemiBold
                               .copyWith(color: cWhite, fontSize: 15),
                         )),
@@ -963,7 +964,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                 Container(
                     width: width * 0.66,
                     child: Text(
-                      model.deegree,
+                      model.degree.toString(),
                       style: AppStyle.textStyleFamilyMontserratSemiBold
                           .copyWith(color: cWhite, fontSize: 13),
                     )),
@@ -973,7 +974,9 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                 Container(
                     width: width * 0.66,
                     child: Text(
-                      model.startDate + " - " + model.endDate,
+                      model.startDate.toString() +
+                          " - " +
+                          model.endDate.toString(),
                       style: AppStyle.textStyleFamilyMontserratSemiBold
                           .copyWith(color: cYearEducationColor, fontSize: 12),
                     )),
@@ -988,11 +991,11 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
     );
   }
 
-  Widget genderDropDown(double w,double h) {
-    return  Container(
+  Widget genderDropDown(double w, double h) {
+    return Container(
       child: CustomDropdown<int>(
         onChange: (int index) =>
-        {controller.gender.value = Const.genderList[index]},
+            {controller.gender.value = Const.genderList[index]},
         dropdownButtonStyle: DropdownButtonStyle(
           width: w * 0.8,
           height: 50,
@@ -1014,18 +1017,16 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
             .entries
             .map(
               (item) => DropdownItem<int>(
-              value: item.key + 1,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  item.value,
-                  style: AppStyle
-                      .textStyleFamilyMontserratMedium
-                      .copyWith(
-                      color: cBlack, fontSize: 13),
-                ),
-              )),
-        )
+                  value: item.key + 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      item.value,
+                      style: AppStyle.textStyleFamilyMontserratMedium
+                          .copyWith(color: cBlack, fontSize: 13),
+                    ),
+                  )),
+            )
             .toList(),
         child: Container(
           width: w * 0.8,
@@ -1043,10 +1044,8 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                   controller.gender.value.isNotEmpty
                       ? controller.gender.value
                       : "Click to Choose",
-                  style: AppStyle
-                      .textStyleFamilyMontserratMedium
-                      .copyWith(
-                      color: cTextFieldHint, fontSize: 13),
+                  style: AppStyle.textStyleFamilyMontserratMedium
+                      .copyWith(color: cTextFieldHint, fontSize: 13),
                 ),
               ),
               Container(
@@ -1064,11 +1063,11 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
     );
   }
 
-  Widget uperTypeDropDown(double w,double h) {
-    return  Container(
+  Widget uperTypeDropDown(double w, double h) {
+    return Container(
       child: CustomDropdown<int>(
         onChange: (int index) =>
-        {controller.userType.value = Const.userType[index]},
+            {controller.userType.value = Const.userType[index]},
         dropdownButtonStyle: DropdownButtonStyle(
           width: w * 0.8,
           height: 50,
@@ -1090,18 +1089,16 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
             .entries
             .map(
               (item) => DropdownItem<int>(
-              value: item.key + 1,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  item.value,
-                  style: AppStyle
-                      .textStyleFamilyMontserratMedium
-                      .copyWith(
-                      color: cBlack, fontSize: 13),
-                ),
-              )),
-        )
+                  value: item.key + 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      item.value,
+                      style: AppStyle.textStyleFamilyMontserratMedium
+                          .copyWith(color: cBlack, fontSize: 13),
+                    ),
+                  )),
+            )
             .toList(),
         child: Container(
           width: w * 0.8,
@@ -1119,10 +1116,8 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                   controller.userType.value.isNotEmpty
                       ? controller.userType.value
                       : "Click to Choose",
-                  style: AppStyle
-                      .textStyleFamilyMontserratMedium
-                      .copyWith(
-                      color: cTextFieldHint, fontSize: 13),
+                  style: AppStyle.textStyleFamilyMontserratMedium
+                      .copyWith(color: cTextFieldHint, fontSize: 13),
                 ),
               ),
               Container(
