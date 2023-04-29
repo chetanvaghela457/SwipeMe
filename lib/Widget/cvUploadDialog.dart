@@ -11,10 +11,13 @@ import '../../Constant/appstyle.dart';
 
 class CvUploadDialog extends StatelessWidget {
   var onCancel, onAdd;
+  String? filePath,fileSize;
 
   CvUploadDialog({
     this.onCancel,
     this.onAdd,
+    this.filePath,
+    this.fileSize
   });
 
   @override
@@ -56,7 +59,7 @@ class CvUploadDialog extends StatelessWidget {
               height: h * 0.02,
             ),
             Text(
-              "Naman Agarwal CV.PDf",
+              filePath.toString(),
               textAlign: TextAlign.center,
               style: AppStyle.textStyleFamilyMontserratBold
                   .copyWith(fontSize: 16, fontWeight: FontWeight.w800),
@@ -65,7 +68,7 @@ class CvUploadDialog extends StatelessWidget {
               height: h * 0.003,
             ),
             Text(
-              "678Kb",
+              fileSize.toString(),
               textAlign: TextAlign.center,
               style: AppStyle.textStyleFamilyMontserratMedium
                   .copyWith(fontSize: 12, fontWeight: FontWeight.w300),

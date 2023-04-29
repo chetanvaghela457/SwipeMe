@@ -88,6 +88,10 @@ class Assets {
   static const String short_list_side_menu = 'assets/images/short_list_side_menu.svg';
   static const String epurchase_register_side_menu = 'assets/images/epurchase_register_side_menu.svg';
   static const String eschedule_drug_register_side_menu = 'assets/images/eschedule_drug_register_side_menu.svg';
+  static const String delete_icon_profile = 'assets/images/delete_icon_profile.png';
+  static const String back_icon_drawer = 'assets/images/back_icon_drawer.svg';
+  static const String become_employer_icon = 'assets/images/become_employer_icon.svg';
+  static const String right_arrow_drawer_item = 'assets/images/right_arrow_drawer_item.svg';
 
 
 }

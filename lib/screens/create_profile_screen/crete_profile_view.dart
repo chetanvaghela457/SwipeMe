@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,8 +16,8 @@ import 'package:swipeme/constant/app_image.dart';
 import 'package:swipeme/constant/appstyle.dart';
 import 'package:swipeme/constant/colors.dart';
 import 'package:swipeme/model/user_model.dart';
-import 'package:swipeme/screens/create_profile_screen/ExperienceModel.dart';
 import 'package:swipeme/screens/create_profile_screen/create_profile_logic.dart';
+import 'package:swipeme/utils/measure_size.dart';
 
 class CreateProfileView extends GetView<CreateProfileLogic> {
   const CreateProfileView({Key? key}) : super(key: key);
@@ -69,19 +71,35 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                                 radius: 30,
                                 backgroundColor: cBorderImageColor,
                                 child: ClipOval(
-                                    child: Image.asset(
-                                        Assets.circle_image_profile)),
+                                    child: controller.imagePath.value.isNotEmpty
+                                        ? Image.file(
+                                            File(controller.imagePath
+                                                .toString()),
+                                            width: w * 0.21,
+                                            fit: BoxFit.fitWidth,
+                                          )
+                                        : Image.asset(
+                                            Assets.circle_image_profile)),
                               ),
                               Positioned(
-                                  bottom: 50,
+                                  bottom: 44,
                                   right: -35,
                                   child: RawMaterialButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      controller.imagePath.value.isNotEmpty
+                                          ? controller.clearImageClicked()
+                                          : controller.imageButtonClicked();
+                                    },
                                     elevation: 2.0,
-                                    child: Image.asset(
-                                      Assets.plus_icon,
-                                      width: 25,
-                                      height: 25,
+                                    child: Container(
+                                      padding: EdgeInsets.all(15),
+                                      child: Image.asset(
+                                        controller.imagePath.value.isNotEmpty
+                                            ? Assets.delete_icon_profile
+                                            : Assets.plus_icon,
+                                        width: 25,
+                                        height: 25,
+                                      ),
                                     ),
                                     shape: CircleBorder(),
                                   )),
@@ -119,68 +137,188 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                     SizedBox(
                       height: h * 0.03,
                     ),
-                    TitleWithFieldProfile(
-                      isCompalsory: true,
-                      isDropDown: false,
-                      controller: controller.firstNameController,
-                      width: w * 0.8,
-                      hintText: "Name",
-                      mainTxtTitle: "First Name",
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        TitleWithFieldProfile(
+                          isCompalsory: true,
+                          isDropDown: false,
+                          controller: controller.firstNameController,
+                          width: w * 0.8,
+                          hintText: "Name",
+                          mainTxtTitle: "First Name",
+                        ),
+                        Obx(() {
+                          return controller.firstNameErr.value != ""
+                              ? Container(
+                                  width: w * 0.8,
+                                  child: Text(
+                                    controller.firstNameErr.value,
+                                    textAlign: TextAlign.end,
+                                    style: AppStyle
+                                        .textStyleFamilyMontserratMedium
+                                        .copyWith(
+                                            color: cStarColor, fontSize: 11),
+                                  ),
+                                )
+                              : SizedBox();
+                        })
+                      ],
                     ),
                     SizedBox(
                       height: h * 0.012,
                     ),
-                    TitleWithFieldProfile(
-                      isCompalsory: true,
-                      isDropDown: false,
-                      controller: controller.lastNameController,
-                      width: w * 0.8,
-                      hintText: "Agarwal",
-                      mainTxtTitle: "Last Name",
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        TitleWithFieldProfile(
+                          isCompalsory: true,
+                          isDropDown: false,
+                          controller: controller.lastNameController,
+                          width: w * 0.8,
+                          hintText: "Agarwal",
+                          mainTxtTitle: "Last Name",
+                        ),
+                        Obx(() {
+                          return controller.lastNameErr.value != ""
+                              ? Container(
+                                  width: w * 0.8,
+                                  child: Text(
+                                    controller.lastNameErr.value,
+                                    textAlign: TextAlign.end,
+                                    style: AppStyle
+                                        .textStyleFamilyMontserratMedium
+                                        .copyWith(
+                                            color: cStarColor, fontSize: 11),
+                                  ),
+                                )
+                              : SizedBox();
+                        })
+                      ],
                     ),
                     SizedBox(
                       height: h * 0.012,
                     ),
-                    TitleWithFieldProfile(
-                      isCompalsory: true,
-                      isDropDown: false,
-                      controller: controller.emailController,
-                      width: w * 0.8,
-                      hintText: "ex.naman@gmail.com",
-                      mainTxtTitle: "Email",
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        TitleWithFieldProfile(
+                          isCompalsory: true,
+                          isDropDown: false,
+                          controller: controller.emailController,
+                          width: w * 0.8,
+                          hintText: "ex.naman@gmail.com",
+                          mainTxtTitle: "Email",
+                        ),
+                        Obx(() {
+                          return controller.emailErr.value != ""
+                              ? Container(
+                                  width: w * 0.8,
+                                  child: Text(
+                                    controller.emailErr.value,
+                                    textAlign: TextAlign.end,
+                                    style: AppStyle
+                                        .textStyleFamilyMontserratMedium
+                                        .copyWith(
+                                            color: cStarColor, fontSize: 11),
+                                  ),
+                                )
+                              : SizedBox();
+                        })
+                      ],
                     ),
                     SizedBox(
                       height: h * 0.012,
                     ),
-                    TitleWithFieldProfile(
-                      isCompalsory: true,
-                      isDropDown: false,
-                      controller: controller.mobileNoController,
-                      width: w * 0.8,
-                      hintText: "9000000000",
-                      mainTxtTitle: "Mobile No.",
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        TitleWithFieldProfile(
+                          isCompalsory: true,
+                          isDropDown: false,
+                          controller: controller.mobileNoController,
+                          width: w * 0.8,
+                          hintText: "9000000000",
+                          mainTxtTitle: "Mobile No.",
+                        ),
+                        Obx(() {
+                          return controller.mobileNoErr.value != ""
+                              ? Container(
+                                  width: w * 0.8,
+                                  child: Text(
+                                    controller.mobileNoErr.value,
+                                    textAlign: TextAlign.end,
+                                    style: AppStyle
+                                        .textStyleFamilyMontserratMedium
+                                        .copyWith(
+                                            color: cStarColor, fontSize: 11),
+                                  ),
+                                )
+                              : SizedBox();
+                        })
+                      ],
                     ),
                     SizedBox(
                       height: h * 0.012,
                     ),
-                    TitleWithFieldProfile(
-                      isCompalsory: true,
-                      isDropDown: false,
-                      controller: controller.organizationController,
-                      width: w * 0.8,
-                      hintText: "ex. Pricewater CooperHouse",
-                      mainTxtTitle: "Organization",
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        TitleWithFieldProfile(
+                          isCompalsory: true,
+                          isDropDown: false,
+                          controller: controller.organizationController,
+                          width: w * 0.8,
+                          hintText: "ex. Pricewater CooperHouse",
+                          mainTxtTitle: "Organization",
+                        ),
+                        Obx(() {
+                          return controller.organizationErr.value != ""
+                              ? Container(
+                                  width: w * 0.8,
+                                  child: Text(
+                                    controller.organizationErr.value,
+                                    textAlign: TextAlign.end,
+                                    style: AppStyle
+                                        .textStyleFamilyMontserratMedium
+                                        .copyWith(
+                                            color: cStarColor, fontSize: 11),
+                                  ),
+                                )
+                              : SizedBox();
+                        })
+                      ],
                     ),
                     SizedBox(
                       height: h * 0.012,
                     ),
-                    TitleWithFieldProfile(
-                      isCompalsory: true,
-                      isDropDown: false,
-                      controller: controller.countryController,
-                      width: w * 0.8,
-                      hintText: "India",
-                      mainTxtTitle: "Country",
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        TitleWithFieldProfile(
+                          isCompalsory: true,
+                          isDropDown: false,
+                          controller: controller.countryController,
+                          width: w * 0.8,
+                          hintText: "India",
+                          mainTxtTitle: "Country",
+                        ),
+                        Obx(() {
+                          return controller.countryErr.value != ""
+                              ? Container(
+                                  width: w * 0.8,
+                                  child: Text(
+                                    controller.countryErr.value,
+                                    textAlign: TextAlign.end,
+                                    style: AppStyle
+                                        .textStyleFamilyMontserratMedium
+                                        .copyWith(
+                                            color: cStarColor, fontSize: 11),
+                                  ),
+                                )
+                              : SizedBox();
+                        })
+                      ],
                     ),
                     SizedBox(
                       height: h * 0.012,
@@ -203,6 +341,19 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                       ),
                     ),
                     genderDropDown(w, h),
+                    Obx(() {
+                      return controller.genderErr.value != ""
+                          ? Container(
+                              width: w * 0.8,
+                              child: Text(
+                                controller.genderErr.value,
+                                textAlign: TextAlign.end,
+                                style: AppStyle.textStyleFamilyMontserratMedium
+                                    .copyWith(color: cStarColor, fontSize: 11),
+                              ),
+                            )
+                          : SizedBox();
+                    }),
                     SizedBox(
                       height: h * 0.012,
                     ),
@@ -224,6 +375,19 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                       ),
                     ),
                     uperTypeDropDown(w, h),
+                    Obx(() {
+                      return controller.userTypeErr.value != ""
+                          ? Container(
+                              width: w * 0.8,
+                              child: Text(
+                                controller.userTypeErr.value,
+                                textAlign: TextAlign.end,
+                                style: AppStyle.textStyleFamilyMontserratMedium
+                                    .copyWith(color: cStarColor, fontSize: 11),
+                              ),
+                            )
+                          : SizedBox();
+                    }),
                     SizedBox(
                       height: h * 0.012,
                     ),
@@ -562,7 +726,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                       height: 50,
                       width: w * 0.80,
                       onTap: () {
-                        controller.openCvUploadDialog(context);
+                        controller.openFileUpload(context);
                       },
                       child: Center(
                         child: Text("Upload CV",
@@ -606,20 +770,27 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(
-              data,
-              style: AppStyle.textStyleFamilyMontserratMedium
-                  .copyWith(fontSize: 15, color: cButtonColor),
+            Container(
+              child: Text(
+                data,
+                style: AppStyle.textStyleFamilyMontserratMedium
+                    .copyWith(fontSize: 15, color: cButtonColor),
+              ),
             ),
             SizedBox(
               width: width * 0.01,
             ),
-            Image.asset(
-              Assets.remove_item_cross,
-              width: 25,
-              height: 25,
+            GestureDetector(
+              onTap: () {
+                controller.skillsData.value.remove(data);
+              },
+              child: Image.asset(
+                Assets.remove_item_cross,
+                width: 25,
+                height: 25,
+              ),
             )
           ],
         ),
@@ -642,7 +813,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
               itemBuilder: (context, index) {
                 final item = controller.exprienceData.value[index];
 
-                return experienceItem(width, height, index, item);
+                return experienceItem(width, height, index, item, context);
               },
               itemCount: controller.exprienceData.value.length,
               onReorder: (oldIndex, newIndex) {
@@ -702,7 +873,7 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
               itemBuilder: (context, index) {
                 final item = controller.educationData.value[index];
 
-                return educationItem(width, height, index, item);
+                return educationItem(width, height, index, item, context);
               },
               itemCount: controller.educationData.value.length,
               onReorder: (oldIndex, newIndex) {
@@ -756,18 +927,31 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                           style: AppStyle.textStyleFamilyMontserratSemiBold
                               .copyWith(color: cWhite, fontSize: 15),
                         )),
-                    Image.asset(
-                      Assets.edit_icon,
-                      width: 20,
-                      height: 20,
+                    GestureDetector(
+                      onTap: () {
+                        controller.urlController.text = model.url.toString();
+                        controller.headingController.text =
+                            model.heading.toString();
+                        controller.portfolioData.value.remove(model);
+                      },
+                      child: Image.asset(
+                        Assets.edit_icon,
+                        width: 20,
+                        height: 20,
+                      ),
                     ),
                     SizedBox(
                       width: width * 0.02,
                     ),
-                    Image.asset(
-                      Assets.delete_icon,
-                      width: 20,
-                      height: 20,
+                    GestureDetector(
+                      onTap: () {
+                        controller.portfolioData.value.remove(model);
+                      },
+                      child: Image.asset(
+                        Assets.delete_icon,
+                        width: 20,
+                        height: 20,
+                      ),
                     ),
                   ],
                 ),
@@ -792,8 +976,8 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
     );
   }
 
-  Widget experienceItem(
-      double width, double height, int index, WorkExperienceModel model) {
+  Widget experienceItem(double width, double height, int index,
+      WorkExperienceModel model, BuildContext context) {
     return Container(
       key: ValueKey(model),
       margin: EdgeInsets.only(top: height * 0.006, bottom: height * 0.006),
@@ -831,18 +1015,37 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                           style: AppStyle.textStyleFamilyMontserratSemiBold
                               .copyWith(color: cWhite, fontSize: 15),
                         )),
-                    Image.asset(
-                      Assets.edit_icon,
-                      width: 20,
-                      height: 20,
+                    GestureDetector(
+                      onTap: () {
+                        controller.jobTitleController.value
+                            .copyWith(text: model.jobTitle.toString());
+                        controller.companyNameController.value
+                            .copyWith(text: model.companyName.toString());
+                        controller.locationController.value
+                            .copyWith(text: model.location.toString());
+                        controller.employmentType.value =
+                            model.employmentType.toString();
+
+                        controller.openExperienceDialog(context);
+                      },
+                      child: Image.asset(
+                        Assets.edit_icon,
+                        width: 20,
+                        height: 20,
+                      ),
                     ),
                     SizedBox(
                       width: width * 0.02,
                     ),
-                    Image.asset(
-                      Assets.delete_icon,
-                      width: 20,
-                      height: 20,
+                    GestureDetector(
+                      onTap: () {
+                        controller.exprienceData.value.remove(model);
+                      },
+                      child: Image.asset(
+                        Assets.delete_icon,
+                        width: 20,
+                        height: 20,
+                      ),
                     ),
                   ],
                 ),
@@ -904,8 +1107,8 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
     );
   }
 
-  Widget educationItem(
-      double width, double height, int index, EducationModel model) {
+  Widget educationItem(double width, double height, int index,
+      EducationModel model, BuildContext context) {
     return Container(
       key: ValueKey(model),
       margin: EdgeInsets.only(top: height * 0.006, bottom: height * 0.006),
@@ -943,18 +1146,28 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                           style: AppStyle.textStyleFamilyMontserratSemiBold
                               .copyWith(color: cWhite, fontSize: 15),
                         )),
-                    Image.asset(
-                      Assets.edit_icon,
-                      width: 20,
-                      height: 20,
+                    GestureDetector(
+                      onTap: () {
+                        controller.openEducationDialog(context);
+                      },
+                      child: Image.asset(
+                        Assets.edit_icon,
+                        width: 20,
+                        height: 20,
+                      ),
                     ),
                     SizedBox(
                       width: width * 0.02,
                     ),
-                    Image.asset(
-                      Assets.delete_icon,
-                      width: 20,
-                      height: 20,
+                    GestureDetector(
+                      onTap: () {
+                        controller.educationData.value.remove(model);
+                      },
+                      child: Image.asset(
+                        Assets.delete_icon,
+                        width: 20,
+                        height: 20,
+                      ),
                     ),
                   ],
                 ),

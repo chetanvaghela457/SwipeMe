@@ -1,13 +1,18 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:swipeme/AppRoutes/app_route.dart';
 import 'package:swipeme/Widget/cvUploadDialog.dart';
 import 'package:swipeme/Widget/educationDialog.dart';
 import 'package:swipeme/Widget/workExperienceDialog.dart';
 import 'package:swipeme/model/user_model.dart';
 import 'package:swipeme/screens/create_profile_screen/ExperienceModel.dart';
+import 'package:swipeme/utils/constants.dart';
 
 class CreateProfileLogic extends GetxController {
   TextEditingController firstNameController = TextEditingController();
@@ -27,8 +32,10 @@ class CreateProfileLogic extends GetxController {
   TextEditingController headingController = TextEditingController();
   TextEditingController urlController = TextEditingController();
 
-
   RxString gender = "".obs, userType = "".obs;
+
+  RxDouble cellWidth = 80.0.obs;
+
   // RxString dob = "".obs;
 
   //Experience Dialog Controller
@@ -47,13 +54,42 @@ class CreateProfileLogic extends GetxController {
   TextEditingController gradeController = TextEditingController();
   TextEditingController descriptionEduController = TextEditingController();
 
-  RxString startDateEdu = "".obs, endDateEdu = "".obs;
+  RxString startDateEdu = "".obs, endDateEdu = "".obs, imagePath = "".obs;
 
   Rx<RxList<WorkExperienceModel>> exprienceData =
       RxList<WorkExperienceModel>.empty().obs;
   Rx<RxList<EducationModel>> educationData = RxList<EducationModel>.empty().obs;
-  Rx<RxList<ProjectsListModel>> portfolioData = RxList<ProjectsListModel>.empty().obs;
+  Rx<RxList<ProjectsListModel>> portfolioData =
+      RxList<ProjectsListModel>.empty().obs;
   Rx<RxList<String>> skillsData = RxList<String>.empty().obs;
+
+  ImagePicker picker = ImagePicker();
+
+  void imageButtonClicked() async {
+    try {
+      XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        imagePath.value = pickedFile.path.toString();
+      }
+    } catch (e) {
+      print("object" + e.toString());
+    }
+  }
+
+  void clearImageClicked() {
+    imagePath.value = "";
+  }
+
+  RxString firstNameErr = "".obs,
+      lastNameErr = "".obs,
+      emailErr = "".obs,
+      mobileNoErr = "".obs,
+      organizationErr = "".obs,
+      countryErr = "".obs,
+      genderErr = "".obs,
+      userTypeErr = "".obs,
+      aboutSelfErr = "".obs;
 
   // WorkExperienceModel experienceModel = WorkExperienceModel(
   //     jobTitle: "Head Engineer",
@@ -114,133 +150,153 @@ class CreateProfileLogic extends GetxController {
     super.onInit();
   }
 
-  void onPublishClicked() {
-
-
-
-  }
+  void onPublishClicked() {}
 
   void openExperienceDialog(BuildContext context) {
-    
-    showDialog(context: context, builder: (_) => AlertDialog(
-      insetPadding: EdgeInsets.zero,
-      contentPadding: EdgeInsets.zero,
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      content: WorkExperienceDialog(
-        onAdd: () async {
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              insetPadding: EdgeInsets.zero,
+              contentPadding: EdgeInsets.zero,
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              content: WorkExperienceDialog(
+                onAdd: () async {
+                  print("jobTitleController.text" + jobTitleController.text);
+                  print("companyNameController.text" +
+                      companyNameController.text);
+                  print("locationController.text" + locationController.text);
+                  print("employmentType.value" + employmentType.value);
+                  print("startDate.value" + startDate.value);
+                  print("endDate.value" + endDate.value);
 
-          print("jobTitleController.text"+jobTitleController.text);
-          print("companyNameController.text"+companyNameController.text);
-          print("locationController.text"+locationController.text);
-          print("employmentType.value"+employmentType.value);
-          print("startDate.value"+startDate.value);
-          print("endDate.value"+endDate.value);
+                  if (jobTitleController.text.isNotEmpty &&
+                      companyNameController.text.isNotEmpty &&
+                      locationController.text.isNotEmpty &&
+                      employmentType.value.isNotEmpty &&
+                      startDate.value.isNotEmpty &&
+                      endDate.value.isNotEmpty) {
+                    WorkExperienceModel experience = WorkExperienceModel(
+                        jobTitle: jobTitleController.text,
+                        employmentType: employmentType.value,
+                        companyName: companyNameController.text,
+                        location: locationController.text,
+                        startDate: startDate.value,
+                        endDate: endDate.value,
+                        description: descriptionController.text,
+                        isCurrentlyWorkHere: isCurrentlyWorkThere.value);
 
-          if (jobTitleController.text.isNotEmpty &&
-              companyNameController.text.isNotEmpty &&
-              locationController.text.isNotEmpty &&
-              employmentType.value.isNotEmpty &&
-              startDate.value.isNotEmpty &&
-              endDate.value.isNotEmpty) {
-            WorkExperienceModel experience = WorkExperienceModel(
-                jobTitle: jobTitleController.text,
-                employmentType: employmentType.value,
-                companyName: companyNameController.text,
-                location: locationController.text,
-                startDate: startDate.value,
-                endDate: endDate.value,
-                description: descriptionController.text,
-                isCurrentlyWorkHere: isCurrentlyWorkThere.value);
+                    exprienceData.value.add(experience);
+                    jobTitleController.clear();
+                    employmentType = "".obs;
+                    companyNameController.clear();
+                    locationController.clear();
+                    descriptionController.clear();
+                    startDate = "".obs;
+                    endDate = "".obs;
+                    isCurrentlyWorkThere = false.obs;
 
-            exprienceData.value.add(experience);
-            jobTitleController.clear();
-            employmentType = "".obs;
-            companyNameController.clear();
-            locationController.clear();
-            descriptionController.clear();
-            startDate = "".obs;
-            endDate = "".obs;
-            isCurrentlyWorkThere = false.obs;
+                    debugPrint('Add Data : ');
+                  } else {
+                    debugPrint('Not Added : ');
+                  }
 
-            debugPrint('Add Data : ');
-          } else {
-            debugPrint('Not Added : ');
-          }
-
-          Get.back();
-          // CheckPremission();
-        },
-        onCancel: () {
-          Get.back();
-          debugPrint('onTapDeny : ');
-        },
-      ),
-    ));
+                  Get.back();
+                  // CheckPremission();
+                },
+                onCancel: () {
+                  Get.back();
+                  debugPrint('onTapDeny : ');
+                },
+              ),
+            ));
   }
 
   void openEducationDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              insetPadding: EdgeInsets.zero,
+              contentPadding: EdgeInsets.zero,
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              content: EducationDialog(
+                onAdd: () async {
+                  if (schoolClgController.text.isNotEmpty &&
+                      degreeController.text.isNotEmpty &&
+                      fieldController.text.isNotEmpty &&
+                      gradeController.text.isNotEmpty &&
+                      startDateEdu.value.isNotEmpty &&
+                      endDateEdu.value.isNotEmpty) {
+                    EducationModel educationModel = EducationModel(
+                        collegeName: schoolClgController.value.text,
+                        degree: degreeController.value.text,
+                        field: fieldController.value.text,
+                        grade: gradeController.value.text,
+                        startDate: startDateEdu.value,
+                        endDate: endDateEdu.value,
+                        description: descriptionEduController.value.text,
+                        currentlyPursuing: isCurrentlyPursuing.value);
 
-    showDialog(context: context, builder: (_) => AlertDialog(
-      insetPadding: EdgeInsets.zero,
-      contentPadding: EdgeInsets.zero,
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      content: EducationDialog(
-        onAdd: () async {
-          if (schoolClgController.text.isNotEmpty &&
-              degreeController.text.isNotEmpty &&
-              fieldController.text.isNotEmpty &&
-              gradeController.text.isNotEmpty &&
-              startDateEdu.value.isNotEmpty &&
-              endDateEdu.value.isNotEmpty) {
-            EducationModel educationModel = EducationModel(
-                collegeName: schoolClgController.value.text,
-                degree: degreeController.value.text,
-                field: fieldController.value.text,
-                grade: gradeController.value.text,
-                startDate: startDateEdu.value,
-                endDate: endDateEdu.value,
-                description: descriptionEduController.value.text,
-                currentlyPursuing: isCurrentlyPursuing.value);
-
-            educationData.value.add(educationModel);
-            schoolClgController.clear();
-            degreeController.clear();
-            fieldController.clear();
-            gradeController.clear();
-            descriptionEduController.clear();
-            startDateEdu = "".obs;
-            endDateEdu = "".obs;
-            isCurrentlyPursuing = false.obs;
-          } else {}
-          Get.back();
-          // CheckPremission();
-        },
-        onCancel: () {
-          Get.back();
-          debugPrint('onTapDeny : ');
-        },
-      ),
-    ));
+                    educationData.value.add(educationModel);
+                    schoolClgController.clear();
+                    degreeController.clear();
+                    fieldController.clear();
+                    gradeController.clear();
+                    descriptionEduController.clear();
+                    startDateEdu = "".obs;
+                    endDateEdu = "".obs;
+                    isCurrentlyPursuing = false.obs;
+                  } else {}
+                  Get.back();
+                  // CheckPremission();
+                },
+                onCancel: () {
+                  Get.back();
+                  debugPrint('onTapDeny : ');
+                },
+              ),
+            ));
   }
 
-  void openCvUploadDialog(BuildContext context) {
+  void openCvUploadDialog(BuildContext context, File file) {
+    String fileName = file.path.split('/').last;
 
-    showDialog(context: context, builder: (_) => AlertDialog(
-      insetPadding: EdgeInsets.zero,
-      contentPadding: EdgeInsets.zero,
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      content: CvUploadDialog(
-        onAdd: () async {
-          debugPrint('onTapAllow : ');
-          Get.back();
-          // CheckPremission();
-        },
-        onCancel: () {
-          Get.back();
-          debugPrint('onTapDeny : ');
-        },
-      ),
-    ));
+
+
+    if (fileName.contains(".pdf")) {
+      showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+                insetPadding: EdgeInsets.zero,
+                contentPadding: EdgeInsets.zero,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                content: CvUploadDialog(
+                  onAdd: () async {
+                    debugPrint('onTapAllow : ');
+                    Get.back();
+                    // CheckPremission();
+                  },
+                  onCancel: () {
+                    Get.back();
+                    debugPrint('onTapDeny : ');
+                  },
+                  filePath: fileName,
+                  fileSize: getFileSize(file.path, 1).toString(),
+                ),
+              ));
+    } else {
+      //File Not Support Dialog
+    }
+  }
+
+  void openFileUpload(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      File file = File(result.files.single.path.toString());
+
+
+      openCvUploadDialog(context, file);
+    }
   }
 
   void openPreviewProfileScreen() {

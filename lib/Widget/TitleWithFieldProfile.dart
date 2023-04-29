@@ -62,7 +62,7 @@ class TitleWithFieldProfile extends StatelessWidget {
                 height: 40,
                 controller: controller,
                 hintText: hintText ?? "",
-                textInputType: TextInputType.emailAddress,
+                textInputType: TextInputType.text,
                 lines: lines,
                 inputFormatters: [
                   FilteringTextInputFormatter.deny(RegExp(r" "))
