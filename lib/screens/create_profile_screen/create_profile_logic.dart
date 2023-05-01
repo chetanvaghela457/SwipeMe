@@ -1,12 +1,15 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:swipeme/AppRoutes/app_route.dart';
+import 'package:swipeme/Constant/app_image.dart';
 import 'package:swipeme/Widget/cvUploadDialog.dart';
 import 'package:swipeme/Widget/educationDialog.dart';
 import 'package:swipeme/Widget/workExperienceDialog.dart';
@@ -20,7 +23,7 @@ class CreateProfileLogic extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController mobileNoController = TextEditingController();
   TextEditingController organizationController = TextEditingController();
-  TextEditingController countryController = TextEditingController();
+  RxString countryController = "".obs;
   TextEditingController aboutYourSelfController = TextEditingController();
   TextEditingController currentCTCController = TextEditingController();
   TextEditingController linkedInController = TextEditingController();
@@ -32,7 +35,7 @@ class CreateProfileLogic extends GetxController {
   TextEditingController headingController = TextEditingController();
   TextEditingController urlController = TextEditingController();
 
-  RxString gender = "".obs, userType = "".obs;
+  RxString gender = "".obs, userType = "".obs,selectedCountyCode = "+91".obs;
 
   RxDouble cellWidth = 80.0.obs;
 
@@ -62,8 +65,19 @@ class CreateProfileLogic extends GetxController {
   Rx<RxList<ProjectsListModel>> portfolioData =
       RxList<ProjectsListModel>.empty().obs;
   Rx<RxList<String>> skillsData = RxList<String>.empty().obs;
+  Rx<RxList<CountriesModel>> countriesData = RxList<CountriesModel>.empty().obs;
 
   ImagePicker picker = ImagePicker();
+
+  Future<void> readJson() async {
+    final String response = await rootBundle.loadString(Assets.countries);
+    final data = await json.decode(response);
+
+    List<CountriesModel> countriesList = List<CountriesModel>.from(
+        data.map((model) => CountriesModel.fromJson(model)));
+
+    countriesData.value.addAll(countriesList);
+  }
 
   void imageButtonClicked() async {
     try {
@@ -145,6 +159,7 @@ class CreateProfileLogic extends GetxController {
     // educationData.value.add(educationModel);
     // educationData.value.add(educationModel1);
 
+    readJson();
     portfolioData.value.add(portfolioModel);
     portfolioData.value.add(portfolioModel1);
     super.onInit();
@@ -260,8 +275,6 @@ class CreateProfileLogic extends GetxController {
   void openCvUploadDialog(BuildContext context, File file) {
     String fileName = file.path.split('/').last;
 
-
-
     if (fileName.contains(".pdf")) {
       showDialog(
           context: context,
@@ -293,7 +306,6 @@ class CreateProfileLogic extends GetxController {
 
     if (result != null) {
       File file = File(result.files.single.path.toString());
-
 
       openCvUploadDialog(context, file);
     }

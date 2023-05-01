@@ -11,6 +11,7 @@ import 'package:swipeme/Widget/TitleWithFieldProfile.dart';
 import 'package:swipeme/Widget/cbutton.dart';
 import 'package:swipeme/Widget/cbuttonborder.dart';
 import 'package:swipeme/Widget/multilineTextField.dart';
+import 'package:swipeme/Widget/phoneNumberTextField.dart';
 import 'package:swipeme/constant/app_constant.dart';
 import 'package:swipeme/constant/app_image.dart';
 import 'package:swipeme/constant/appstyle.dart';
@@ -233,13 +234,67 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        TitleWithFieldProfile(
-                          isCompalsory: true,
-                          isDropDown: false,
-                          controller: controller.mobileNoController,
+                        Container(
                           width: w * 0.8,
-                          hintText: "9000000000",
-                          mainTxtTitle: "Mobile No.",
+                          child: Row(
+                            children: [
+                              Text(
+                                "Country",
+                                style: AppStyle.textStyleFamilyMontserratMedium
+                                    .copyWith(color: cBlack, fontSize: 13),
+                              ),
+                              Text(
+                                "*",
+                                style: AppStyle.textStyleFamilyMontserratMedium
+                                    .copyWith(color: cStarColor, fontSize: 13),
+                              )
+                            ],
+                          ),
+                        ),
+                        countriesDropDown(w, h),
+                        Obx(() {
+                          return controller.countryErr.value != ""
+                              ? Container(
+                                  width: w * 0.8,
+                                  child: Text(
+                                    controller.countryErr.value,
+                                    textAlign: TextAlign.end,
+                                    style: AppStyle
+                                        .textStyleFamilyMontserratMedium
+                                        .copyWith(
+                                            color: cStarColor, fontSize: 11),
+                                  ),
+                                )
+                              : SizedBox();
+                        })
+                      ],
+                    ),
+                    SizedBox(
+                      height: h * 0.012,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: w * 0.8,
+                          child: Row(
+                            children: [
+                              Text(
+                                "Mobile No.",
+                                style: AppStyle.textStyleFamilyMontserratMedium
+                                    .copyWith(color: cBlack, fontSize: 13),
+                              ),
+                              Text(
+                                "*",
+                                style: AppStyle.textStyleFamilyMontserratMedium
+                                    .copyWith(color: cStarColor, fontSize: 13),
+                              )
+                            ],
+                          ),
+                        ),
+                        PhoneNumberField(
+                          controller: controller.mobileNoController,
+                          countryCode: controller.selectedCountyCode.value,
                         ),
                         Obx(() {
                           return controller.mobileNoErr.value != ""
@@ -278,37 +333,6 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
                                   width: w * 0.8,
                                   child: Text(
                                     controller.organizationErr.value,
-                                    textAlign: TextAlign.end,
-                                    style: AppStyle
-                                        .textStyleFamilyMontserratMedium
-                                        .copyWith(
-                                            color: cStarColor, fontSize: 11),
-                                  ),
-                                )
-                              : SizedBox();
-                        })
-                      ],
-                    ),
-                    SizedBox(
-                      height: h * 0.012,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        TitleWithFieldProfile(
-                          isCompalsory: true,
-                          isDropDown: false,
-                          controller: controller.countryController,
-                          width: w * 0.8,
-                          hintText: "India",
-                          mainTxtTitle: "Country",
-                        ),
-                        Obx(() {
-                          return controller.countryErr.value != ""
-                              ? Container(
-                                  width: w * 0.8,
-                                  child: Text(
-                                    controller.countryErr.value,
                                     textAlign: TextAlign.end,
                                     style: AppStyle
                                         .textStyleFamilyMontserratMedium
@@ -1199,6 +1223,82 @@ class CreateProfileView extends GetView<CreateProfileLogic> {
               ],
             )
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget countriesDropDown(double w, double h) {
+    return Container(
+      child: CustomDropdown<int>(
+        onChange: (int index) {
+          controller.countryController.value =
+              controller.countriesData.value[index].name;
+          controller.selectedCountyCode.value =
+              controller.countriesData.value[index].code;
+        },
+        dropdownButtonStyle: DropdownButtonStyle(
+          width: w * 0.8,
+          height: 50,
+          elevation: 1,
+          backgroundColor: Colors.white,
+          primaryColor: Colors.black87,
+        ),
+        hideIcon: true,
+        dropdownStyle: DropdownStyle(
+            padding: EdgeInsets.all(5),
+            shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  color: Colors.grey,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(7))),
+        items: controller.countriesData.value
+            .asMap()
+            .entries
+            .map(
+              (item) => DropdownItem<int>(
+                  value: item.key + 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      item.value.name,
+                      style: AppStyle.textStyleFamilyMontserratMedium
+                          .copyWith(color: cBlack, fontSize: 13),
+                    ),
+                  )),
+            )
+            .toList(),
+        child: Container(
+          width: w * 0.8,
+          height: 40,
+          decoration: BoxDecoration(
+            color: cTextFieldBackground,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text(
+                  controller.countryController.value.isNotEmpty
+                      ? controller.countryController.value
+                      : "Click to Choose",
+                  style: AppStyle.textStyleFamilyMontserratMedium
+                      .copyWith(color: cTextFieldHint, fontSize: 13),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 10),
+                child: SvgPicture.asset(
+                  Assets.dropDown,
+                  width: 8,
+                  height: 8,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

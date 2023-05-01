@@ -68,6 +68,14 @@ class Assets {
   static const String job_type = 'assets/images/job_type.svg';
   static const String job_package = 'assets/images/job_package.svg';
   static const String match_found_cartoon_bg = 'assets/images/match_found_cartoon_bg.png';
+  static const String about_us_side = 'assets/images/about_us_side.svg';
+  static const String testimonial_side = 'assets/images/testimonial_side.svg';
+  static const String write_to_us_side = 'assets/images/write_to_us_side.svg';
+  static const String faq_side = 'assets/images/faq_side.svg';
+  static const String partners_side = 'assets/images/partners_side.svg';
+  static const String terms_condition_side = 'assets/images/terms_condition_side.svg';
+  static const String privacy_policy_side = 'assets/images/privacy_policy_side.svg';
+  static const String signout_icon = 'assets/images/signout_icon.svg';
 
 
   static const String login_top = 'assets/images/login_top.png';
@@ -92,6 +100,11 @@ class Assets {
   static const String back_icon_drawer = 'assets/images/back_icon_drawer.svg';
   static const String become_employer_icon = 'assets/images/become_employer_icon.svg';
   static const String right_arrow_drawer_item = 'assets/images/right_arrow_drawer_item.svg';
+
+
+
+  // Json
+  static const String countries = 'assets/json/countries.json';
 
 
 }

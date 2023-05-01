@@ -23,6 +23,10 @@ class DashboardLogic extends GetxController with StateMixin<dynamic> {
     FocusScope.of(Get.context!).unfocus();
   }
 
+  void onLogout() {
+
+  }
+
   List<BottomNavigationBarItem> bottomNavigationBarItems = [
     BottomNavigationBarItem(
       activeIcon: SvgPicture.asset(

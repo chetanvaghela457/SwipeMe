@@ -1,24 +1,22 @@
-// class ExperienceModel {
-//   String jobTitle;
-//   String employementType;
-//   String companyName;
-//   String location;
-//   String startDate;
-//   String endDate;
-//   String description;
-//   bool currentlyWorkHere;
-//
-//   ExperienceModel({
-//     required this.jobTitle,
-//     required this.employementType,
-//     required this.companyName,
-//     required this.location,
-//     required this.startDate,
-//     required this.endDate,
-//     required this.description,
-//     required this.currentlyWorkHere,
-//   });
-// }
+class CountriesModel {
+  String code;
+  String name;
+
+  CountriesModel({
+    required this.code,
+    required this.name
+  });
+
+  factory CountriesModel.fromJson(Map<String, dynamic> json) => CountriesModel(
+    code: json["code"] == null ? null : json["code"],
+    name: json["name"] == null ? null : json["name"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "code": code == null ? null : code,
+    "name": name == null ? null : name
+  };
+}
 
 
 // class EducationModel {
